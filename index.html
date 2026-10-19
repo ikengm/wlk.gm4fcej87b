@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استوديو تليجرام الشامل لإدارة البوتات | Ultimate Bot Studio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts (Cairo & Fira Code) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tg: {
+                            blue: '#24A1DE',
+                            darkBlue: '#1C82B6',
+                            bg: '#0E1621',
+                            card: '#17212B',
+                            hover: '#202B36',
+                            bubble: '#182533',
+                            btnBg: '#2B5278',
+                            accent: '#64B5F6'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at top left, #17212B, #0E1621, #080C14);
+            color: #F8FAFC;
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(23, 33, 43, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(14, 22, 33, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-input {
+            background: rgba(8, 12, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-input:focus {
+            border-color: #24A1DE;
+            box-shadow: 0 0 15px rgba(36, 161, 222, 0.25);
+        }
+        /* Telegram Phone Simulator Pattern */
+        .tg-bg-pattern {
+            background-color: #0e1621;
+            background-image: radial-gradient(#1c2a38 1px, transparent 0);
+            background-size: 16px 16px;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0E1621; }
+        ::-webkit-scrollbar-thumb { background: #202B36; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #24A1DE; }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen overflow-x-hidden">
+
+    <!-- TOP HEADER NAVBAR -->
+    <header class="glass sticky top-0 z-50 px-4 lg:px-8 py-3 flex items-center justify-between shadow-2xl border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-tg-blue to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-tg-blue/30 text-2xl">
+                <i class="fa-brands fa-telegram"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="font-extrabold text-lg text-white tracking-wide">Telegram Studio</h1>
+                    <span class="text-[10px] bg-gradient-to-r from-tg-blue to-teal-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">v2.5 Ultimate</span>
+                </div>
+                <p class="text-xs text-slate-400 font-medium">الاستوديو الشامل للتحكم المتقدم والأتمتة لبوتات تليجرام</p>
+            </div>
+        </div>
+
+        <!-- Bot Selector & Dynamic Status -->
+        <div class="flex items-center gap-3">
+            <div class="hidden md:flex items-center gap-2 bg-slate-900/90 p-1.5 px-3 rounded-xl border border-slate-800">
+                <i class="fa-solid fa-robot text-tg-blue text-sm"></i>
+                <select id="activeBotSelect" onchange="switchActiveBot(this.value)" class="bg-transparent text-xs text-slate-200 font-semibold focus:outline-none cursor-pointer">
+                    <!-- Populated dynamically -->
+                </select>
+            </div>
+
+            <button onclick="openManageBotsModal()" class="px-3.5 py-2 bg-tg-blue/20 hover:bg-tg-blue/30 text-tg-blue border border-tg-blue/30 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                <i class="fa-solid fa-layer-group"></i>
+                <span>إدارة البوتات (<span id="botCountBadge">0</span>)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN APP LAYOUT -->
+    <main class="container mx-auto px-3 lg:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- SIDEBAR NAVIGATION & PROFILE CARD (3 Cols) -->
+        <aside class="lg:col-span-3 flex flex-col gap-4">
+            
+            <!-- Active Bot Card -->
+            <div class="glass rounded-2xl p-4 border border-slate-800 flex flex-col gap-3 relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-tg-blue/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <img id="activeBotAvatar" src="https://placehold.co/100x100/17212B/64B5F6?text=BOT" alt="Bot" class="w-14 h-14 rounded-2xl border-2 border-tg-blue/40 object-cover shadow-md">
+                        <span id="activeBotStatusDot" class="w-3.5 h-3.5 bg-slate-500 border-2 border-tg-card rounded-full absolute -bottom-1 -left-1"></span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <h3 id="activeBotName" class="font-bold text-slate-100 text-sm truncate">لم يتم تحديد بوت</h3>
+                        <p id="activeBotUsername" class="text-xs text-tg-accent truncate dir-ltr text-right">@no_bot_selected</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="activeBotId" class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800 font-mono">ID: -</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-[11px]">
+                    <button onclick="pingActiveBot()" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-rotate text-tg-blue"></i> فحص الاتصال
+                    </button>
+                    <button onclick="openWebhookModal()" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-network-wired text-emerald-400"></i> الويبهوك
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="glass rounded-2xl p-2 flex flex-col gap-1 border border-slate-800">
+                <button onclick="switchTab('tab-msg')" id="btn-tab-msg" class="tab-btn active w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right bg-tg-blue text-white shadow-lg shadow-tg-blue/20">
+                    <i class="fa-solid fa-paper-plane w-4 text-center"></i>
+                    <span>مركز الرسائل والوسائط</span>
+                </button>
+
+                <button onclick="switchTab('tab-keyboards')" id="btn-tab-keyboards" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-table-cells-large w-4 text-center text-teal-400"></i>
+                    <span>صانع الأزرار التفاعلية</span>
+                </button>
+
+                <button onclick="switchTab('tab-commands')" id="btn-tab-commands" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-terminal w-4 text-center text-amber-400"></i>
+                    <span>الأوامر والقائمة المباشرة</span>
+                </button>
+
+                <button onclick="switchTab('tab-auto')" id="btn-tab-auto" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-bolt w-4 text-center text-purple-400"></i>
+                    <span>الأتمتة والردود الآلية</span>
+                </button>
+
+                <button onclick="switchTab('tab-polling')" id="btn-tab-polling" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-rss w-4 text-center text-rose-400"></i>
+                    <span>التحديثات الحية (Long Polling)</span>
+                </button>
+
+                <button onclick="switchTab('tab-backup')" id="btn-tab-backup" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-database w-4 text-center text-cyan-400"></i>
+                    <span>النسخ الاحتياطي والأدوات</span>
+                </button>
+            </nav>
+
+            <!-- Quick Console Mini Log -->
+            <div class="glass-card rounded-2xl p-3 text-xs flex flex-col gap-2 border border-slate-800">
+                <div class="flex justify-between items-center text-slate-400">
+                    <span class="font-bold flex items-center gap-1"><i class="fa-solid fa-code text-tg-blue"></i> السجل السريع</span>
+                    <button onclick="clearConsoleLogs()" class="text-[10px] hover:text-slate-200">مسح</button>
+                </div>
+                <div id="miniConsoleLog" class="font-mono text-[11px] h-28 overflow-y-auto bg-slate-950/80 p-2 rounded-lg text-emerald-400 border border-slate-900 flex flex-col gap-1">
+                    <div class="text-slate-600">// مرحباً بك في استوديو تليجرام...</div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- MAIN WORKING WORKSPACE (6 Cols) -->
+        <section class="lg:col-span-5 flex flex-col gap-6">
+
+            <!-- TAB 1: ADVANCED MESSAGING CENTER -->
+            <div id="tab-msg" class="tab-content flex flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane text-tg-blue"></i>
+                            <span>مرسل الرسائل والوسائط المتعددة</span>
+                        </h2>
+                        <span class="text-[10px] bg-tg-blue/20 text-tg-blue font-semibold px-2 py-0.5 rounded">SendMessage API</span>
+                    </div>
+
+                    <!-- Target Chat ID -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">المستهدف (Chat ID / Username)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="targetChatId" placeholder="مثال: 123456789 أو @channel_name" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
+                            <button onclick="fillAdminId()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold whitespace-nowrap border border-slate-700">
+                                الأي دي الخاص بي
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Media Type Selector -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">نوع المحتوى المرفق</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="setMediaType('text')" id="media-btn-text" class="media-type-btn active py-2 rounded-xl text-xs font-bold border border-slate-700 bg-tg-blue text-white">نص عادي</button>
+                            <button onclick="setMediaType('photo')" id="media-btn-photo" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">صورة</button>
+                            <button onclick="setMediaType('video')" id="media-btn-video" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">فيديو</button>
+                            <button onclick="setMediaType('document')" id="media-btn-document" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">مستند</button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Media URL Input -->
+                    <div id="mediaUrlContainer" class="hidden">
+                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="mediaUrlLabel">رابط الملف / الوسائط</label>
+                        <input type="url" id="mediaUrlInput" oninput="updateLivePreview()" placeholder="https://domain.com/file.jpg" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none dir-ltr text-left">
+                    </div>
+
+                    <!-- Formatting Toolbar & Message Text Area -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="block text-xs font-semibold text-slate-300">نص الرسالة / الكابشن</label>
+                            <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
+                                <button onclick="insertFormat('<b>', '</b>')" class="px-2 py-0.5 text-xs font-bold hover:bg-slate-800 text-slate-200 rounded">B</button>
+                                <button onclick="insertFormat('<i>', '</i>')" class="px-2 py-0.5 text-xs italic hover:bg-slate-800 text-slate-200 rounded">I</button>
+                                <button onclick="insertFormat('<code>', '</code>')" class="px-2 py-0.5 text-xs font-mono hover:bg-slate-800 text-slate-200 rounded">&lt;&gt;</button>
+                                <button onclick="insertFormat('<tg-spoiler>', '</tg-spoiler>')" class="px-2 py-0.5 text-xs hover:bg-slate-800 text-slate-200 rounded">Spoiler</button>
+                                <button onclick="insertFormat('<a href=\'https://telegram.org\'>', '</a>')" class="px-2 py-0.5 text-xs hover:bg-slate-800 text-slate-200 rounded"><i class="fa-solid fa-link"></i></button>
+                            </div>
+                        </div>
+                        <textarea id="messageBody" rows="5" oninput="updateLivePreview()" placeholder="اكتب رسالتك هنا بكل احترافية..." class="glass-input w-full rounded-xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- Dispatch Options -->
+                    <div class="grid grid-cols-2 gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Parse Mode</label>
+                            <select id="parseModeSelect" class="glass-input w-full rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none">
+                                <option value="HTML">HTML (موصى به)</option>
+                                <option value="MarkdownV2">MarkdownV2</option>
+                                <option value="None">بدون تنسيق</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col justify-center gap-1.5 pt-2">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="protectContentCheck" class="sr-only peer">
+                                <div class="w-7 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-tg-blue relative"></div>
+                                <span class="mr-2 text-[11px] text-slate-300">حماية من إعادة التوجيه</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="disableNotificationCheck" class="sr-only peer">
+                                <div class="w-7 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-tg-blue relative"></div>
+                                <span class="mr-2 text-[11px] text-slate-300">إرسال بدون صوت تنبيه</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="dispatchTelegramMessage()" class="w-full py-3 bg-gradient-to-r from-tg-blue to-teal-500 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-lg shadow-tg-blue/20 transition flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>إرسال الرسالة الآن</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: ADVANCED KEYBOARD BUILDER -->
+            <div id="tab-keyboards" class="tab-content hidden flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-table-cells-large text-teal-400"></i>
+                                <span>صانع الأزرار التفاعلية الشفاف والشامل</span>
+                            </h2>
+                            <p class="text-[11px] text-slate-400">أنشئ Inline Keyboards أو Reply Keyboards بأدق التفاصيل</p>
+                        </div>
+                    </div>
+
+                    <!-- Mode Selector -->
+                    <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
+                        <button onclick="setKeyboardMode('inline')" id="kb-mode-inline" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white">أزرار شفافة (Inline Keyboard)</button>
+                        <button onclick="setKeyboardMode('reply')" id="kb-mode-reply" class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">كيبورد ردود (Reply Keyboard)</button>
+                    </div>
+
+                    <!-- Keyboard Builder Canvas -->
+                    <div id="keyboardRowsWrapper" class="flex flex-col gap-3 min-h-[200px]">
+                        <!-- Dynamic Rows injected here -->
+                    </div>
+
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-800">
+                        <button onclick="addNewKeyboardRow()" class="px-3.5 py-2 bg-teal-500/20 text-teal-300 hover:bg-teal-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> إضافة صف جديد
+                        </button>
+                        <button onclick="resetKeyboardBuilder()" class="text-xs text-red-400 hover:text-red-300">مسح الكل</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: COMMANDS & SCOPES -->
+            <div id="tab-commands" class="tab-content hidden flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-terminal text-amber-400"></i>
+                            <span>إدارة قائمة الأوامر والنطاقات</span>
+                        </h2>
+                        <button onclick="fetchBotCommandsAPI()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs">جلب الأوامر الحالية</button>
+                    </div>
+
+                    <!-- New Command Input -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <div class="md:col-span-2">
+                            <label class="block text-[10px] text-slate-400 mb-1">الأمر (بدون /)</label>
+                            <input type="text" id="cmdInputName" placeholder="start" class="glass-input w-full rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-[10px] text-slate-400 mb-1">الوصف</label>
+                            <input type="text" id="cmdInputDesc" placeholder="تشغيل البوت" class="glass-input w-full rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="addCommandItem()" class="w-full py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs">إضافة</button>
+                        </div>
+                    </div>
+
+                    <!-- Commands List -->
+                    <div class="max-h-52 overflow-y-auto border border-slate-800 rounded-xl">
+                        <table class="w-full text-right text-xs">
+                            <thead class="bg-slate-900 text-slate-400 sticky top-0">
+                                <tr>
+                                    <th class="p-2.5">الأمر</th>
+                                    <th class="p-2.5">الوصف</th>
+                                    <th class="p-2.5 text-center">حذف</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commandsListTable" class="divide-y divide-slate-800/60">
+                                <tr><td colspan="3" class="p-4 text-center text-slate-500">لا يوجد أوامر مضافة.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button onclick="saveCommandsToTelegram()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition">
+                        تحديث الأوامر في Telegram API
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 4: AUTOMATION & RULES ENGINE -->
+            <div id="tab-auto" class="tab-content hidden flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-purple-400"></i>
+                            <span>منشئ قواعد الرد الآلي والأتمتة</span>
+                        </h2>
+                        <p class="text-[11px] text-slate-400">تعيين ردود تلقائية بناءً على الكلمات المفتاحية</p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">الكلمة المفتاحية المستلمة (Trigger Keyword)</label>
+                            <input type="text" id="autoTrigger" placeholder="مثال: مرحبا أو /start" class="glass-input w-full rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">نص الرد التلقائي (Response Message)</label>
+                            <textarea id="autoResponse" rows="2" placeholder="أهلاً بك! كيف يمكنني مساعدتك اليوم؟" class="glass-input w-full rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none"></textarea>
+                        </div>
+                        <button onclick="addAutoResponderRule()" class="py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xs">
+                            حفظ القاعدة
+                        </button>
+                    </div>
+
+                    <div id="rulesListContainer" class="flex flex-col gap-2 max-h-48 overflow-y-auto">
+                        <!-- Rules injected dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: LONG POLLING & LIVE FEED -->
+            <div id="tab-polling" class="tab-content hidden flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-rss text-rose-400"></i>
+                            <span>التحديثات المباشرة (Live Long Polling)</span>
+                        </h2>
+                        <button onclick="togglePolling()" id="pollingToggleBtn" class="px-3 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold">
+                            بدء الاستماع المباشر
+                        </button>
+                    </div>
+
+                    <div id="pollingUpdatesFeed" class="font-mono text-xs bg-slate-950 p-3 rounded-xl border border-slate-900 min-h-[250px] max-h-[350px] overflow-y-auto text-slate-300 flex flex-col gap-2 dir-ltr text-left">
+                        <div class="text-slate-600 font-sans">// انقر على "بدء الاستماع" لالتقاط جميع الرسائل والتفاعلات مع البوت حياً...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: BACKUP & UTILITIES -->
+            <div id="tab-backup" class="tab-content hidden flex-col gap-5">
+                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-database text-cyan-400"></i>
+                            <span>النسخ الاحتياطي واستيراد/تصدير البيانات</span>
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="exportAppData()" class="py-3 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold flex flex-col items-center gap-1">
+                            <i class="fa-solid fa-download text-lg"></i>
+                            <span>تصدير نسخة JSON</span>
+                        </button>
+                        <label class="py-3 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold flex flex-col items-center gap-1 cursor-pointer">
+                            <i class="fa-solid fa-upload text-lg"></i>
+                            <span>استيراد نسخة JSON</span>
+                            <input type="file" onchange="importAppData(event)" class="hidden" accept=".json">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- REALISTIC TELEGRAM SIMULATOR SCREEN (4 Cols) -->
+        <aside class="lg:col-span-4 flex flex-col gap-4">
+            <div class="glass rounded-3xl p-4 border border-slate-800 sticky top-20 flex flex-col gap-3 shadow-2xl">
+                <div class="flex items-center justify-between px-2 text-xs font-bold text-slate-400 border-b border-slate-800/80 pb-2">
+                    <span class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-mobile-screen-button text-tg-blue"></i>
+                        <span>محاكي تليجرام التفاعلي المباشر</span>
+                    </span>
+                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span> مباشر
+                    </span>
+                </div>
+
+                <!-- Telegram Phone Body -->
+                <div class="w-full rounded-2xl overflow-hidden border-4 border-slate-800 shadow-2xl bg-tg-bg flex flex-col h-[520px]">
+                    <!-- Telegram Header -->
+                    <div class="bg-tg-card px-3 py-2.5 flex items-center gap-3 border-b border-slate-800/60 text-white">
+                        <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
+                        <img id="simAvatar" src="https://placehold.co/100x100/17212B/64B5F6?text=BOT" class="w-8 h-8 rounded-full border border-tg-blue/40 object-cover">
+                        <div class="overflow-hidden flex-1">
+                            <h4 id="simName" class="font-bold text-xs truncate">اسم البوت</h4>
+                            <p class="text-[9px] text-tg-blue">bot</p>
+                        </div>
+                        <i class="fa-solid fa-ellipsis-vertical text-xs text-slate-400"></i>
+                    </div>
+
+                    <!-- Telegram Chat Screen -->
+                    <div class="flex-1 tg-bg-pattern p-3 overflow-y-auto flex flex-col justify-end gap-2">
+                        
+                        <!-- Incoming Message Bubble -->
+                        <div class="max-w-[88%] bg-tg-bubble text-slate-100 p-2.5 rounded-2xl rounded-tr-none border border-slate-700/40 shadow-md self-start flex flex-col gap-2">
+                            
+                            <!-- Media Preview Area -->
+                            <div id="simMediaArea" class="hidden rounded-xl overflow-hidden max-h-44 border border-slate-800">
+                                <!-- Media injected here -->
+                            </div>
+
+                            <!-- Text Content -->
+                            <div id="simTextBody" class="text-xs leading-relaxed break-words whitespace-pre-wrap dir-rtl">
+                                نص المعاينة سيظهر هنا...
+                            </div>
+
+                            <div class="text-[9px] text-slate-400 self-end font-mono">12:00 PM</div>
+
+                            <!-- Inline Keyboards Simulator Container -->
+                            <div id="simInlineContainer" class="flex flex-col gap-1 pt-1.5 border-t border-slate-700/30">
+                                <!-- Dynamic Inline Buttons rendered here -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Telegram Reply Keyboard Area (Bottom) -->
+                    <div id="simReplyKeyboardArea" class="bg-tg-card p-1.5 border-t border-slate-800/80 flex flex-col gap-1 hidden">
+                        <!-- Reply Keyboard Buttons injected here -->
+                    </div>
+
+                    <!-- Telegram Input Bar -->
+                    <div class="bg-tg-card p-2 border-t border-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-paperclip text-slate-400 text-xs"></i>
+                        <input type="text" disabled placeholder="اكتب رسالة..." class="w-full bg-slate-900/80 text-[11px] px-3 py-1.5 rounded-full text-slate-400 border border-slate-800">
+                        <i class="fa-solid fa-microphone text-tg-blue text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- MANAGE BOTS MODAL -->
+    <div id="manageBotsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass rounded-3xl max-w-xl w-full p-6 border border-slate-800 flex flex-col gap-5 shadow-2xl relative">
+            <button onclick="closeManageBotsModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-slate-100 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-tg-blue"></i>
+                    <span>إدارة محفظة البوتات</span>
+                </h3>
+            </div>
+
+            <!-- Add Bot Form -->
+            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-3">
+                <label class="block text-xs font-bold text-slate-200">إضافة بوت جديد (Bot Token)</label>
+                <div class="flex gap-2">
+                    <input type="text" id="modalTokenInput" placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none dir-ltr">
+                    <button onclick="addNewBotByToken()" class="px-4 py-2 bg-tg-blue hover:bg-tg-darkBlue text-white font-bold rounded-xl text-xs whitespace-nowrap transition">
+                        فحص وإضافة
+                    </button>
+                </div>
+            </div>
+
+            <!-- Registered Bots List -->
+            <div class="flex flex-col gap-2 max-h-60 overflow-y-auto" id="registeredBotsList">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- WEBHOOK SETTINGS MODAL -->
+    <div id="webhookModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass rounded-3xl max-w-lg w-full p-6 border border-slate-800 flex flex-col gap-5 shadow-2xl relative">
+            <button onclick="closeWebhookModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="border-b border-slate-800 pb-3">
+                <h3 class="font-extrabold text-slate-100 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-network-wired text-emerald-400"></i>
+                    <span>إدارة الويبهوك (Webhook Manager)</span>
+                </h3>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">رابط الويبهوك (HTTPS Webhook URL)</label>
+                    <input type="url" id="webhookUrlInput" placeholder="https://yourserver.com/webhook" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none dir-ltr">
+                </div>
+                
+                <div class="flex gap-2 pt-2">
+                    <button onclick="setWebhookAPI()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition">
+                        تثبيت الويبهوك
+                    </button>
+                    <button onclick="deleteWebhookAPI()" class="py-2.5 px-4 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded-xl text-xs font-bold transition">
+                        حذف
+                    </button>
+                    <button onclick="getWebhookInfoAPI()" class="py-2.5 px-4 bg-slate-800 text-slate-200 hover:bg-slate-700 rounded-xl text-xs font-bold transition">
+                        معلومات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST CONTAINER -->
+    <div id="toastStack" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- MAIN APP JAVASCRIPT LOGIC -->
+    <script>
+        // APP GLOBAL STATE
+        let botsCollection = []; // Stores all added bots
+        let activeBotId = null;  // Currently active bot ID
+        let currentMediaType = 'text'; // 'text', 'photo', 'video', 'document'
+        let keyboardMode = 'inline'; // 'inline' or 'reply'
+        let inlineKeyboardRows = []; // Stores inline button rows
+        let replyKeyboardRows = [];  // Stores reply keyboard rows
+        let botCommands = [];        // Stores bot commands
+        let autoRules = [];          // Stores auto-responder rules
+        let pollingInterval = null;  // Long polling timer
+        let lastUpdateId = 0;
+
+        // INITIALIZATION
+        window.onload = function() {
+            loadFromLocalStorage();
+            if(botsCollection.length === 0) {
+                openManageBotsModal();
+            } else {
+                renderBotsUI();
+            }
+            addNewKeyboardRow();
+            updateLivePreview();
+        };
+
+        // LOCALSTORAGE PERSISTENCE
+        function loadFromLocalStorage() {
+            const savedBots = localStorage.getItem('tg_studio_bots');
+            const savedRules = localStorage.getItem('tg_studio_rules');
+            if(savedBots) {
+                try {
+                    botsCollection = JSON.parse(savedBots);
+                    if(botsCollection.length > 0) activeBotId = botsCollection[0].id;
+                } catch(e) { console.error(e); }
+            }
+            if(savedRules) {
+                try { autoRules = JSON.parse(savedRules); } catch(e){}
+            }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('tg_studio_bots', JSON.stringify(botsCollection));
+            localStorage.setItem('tg_studio_rules', JSON.stringify(autoRules));
+        }
+
+        // BOTS MANAGEMENT LOGIC
+        function openManageBotsModal() { document.getElementById('manageBotsModal').classList.remove('hidden'); renderRegisteredBotsModalList(); }
+        function closeManageBotsModal() { document.getElementById('manageBotsModal').classList.add('hidden'); }
+        function openWebhookModal() { document.getElementById('webhookModal').classList.remove('hidden'); }
+        function closeWebhookModal() { document.getElementById('webhookModal').classList.add('hidden'); }
+
+        async function addNewBotByToken() {
+            const tokenInput = document.getElementById('modalTokenInput');
+            const token = tokenInput.value.trim();
+            if(!token) return showToast('يرجى إدخال التوكن', 'error');
+
+            logConsole(`جاري فحص التوكن مع Telegram API...`);
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+                const data = await res.json();
+
+                if(data.ok) {
+                    const info = data.result;
+                    const existingIndex = botsCollection.findIndex(b => b.id === info.id);
+                    const botObj = {
+                        id: info.id,
+                        token: token,
+                        firstName: info.first_name,
+                        username: info.username,
+                        avatar: `https://placehold.co/100x100/17212B/64B5F6?text=${info.first_name.charAt(0)}`
+                    };
+
+                    if(existingIndex >= 0) {
+                        botsCollection[existingIndex] = botObj;
+                    } else {
+                        botsCollection.push(botObj);
+                    }
+
+                    activeBotId = info.id;
+                    saveToLocalStorage();
+                    tokenInput.value = '';
+                    renderBotsUI();
+                    renderRegisteredBotsModalList();
+                    showToast(`تمت إضافة البوت @${info.username} بنجاح!`, 'success');
+                    logConsole(`تم ربط البوت @${info.username} بنجاح.`, 'success');
+                } else {
+                    showToast('التوكن غير صالح!', 'error');
+                }
+            } catch(e) {
+                showToast('خطأ في شبكة الاتصال', 'error');
+            }
+        }
+
+        function getActiveBot() {
+            return botsCollection.find(b => b.id === activeBotId) || null;
+        }
+
+        function switchActiveBot(id) {
+            activeBotId = parseInt(id);
+            renderBotsUI();
+            logConsole(`تم التبديل إلى البوت النقل المباشر ID: ${activeBotId}`);
+        }
+
+        function renderBotsUI() {
+            const select = document.getElementById('activeBotSelect');
+            const badge = document.getElementById('botCountBadge');
+            badge.innerText = botsCollection.length;
+
+            select.innerHTML = botsCollection.map(b => `<option value="${b.id}" ${b.id === activeBotId ? 'selected' : ''}>${b.firstName} (@${b.username})</option>`).join('');
+
+            const bot = getActiveBot();
+            if(bot) {
+                document.getElementById('activeBotName').innerText = bot.firstName;
+                document.getElementById('activeBotUsername').innerText = '@' + bot.username;
+                document.getElementById('activeBotId').innerText = 'ID: ' + bot.id;
+                document.getElementById('activeBotAvatar').src = bot.avatar;
+                document.getElementById('activeBotStatusDot').className = 'w-3.5 h-3.5 bg-emerald-500 border-2 border-tg-card rounded-full absolute -bottom-1 -left-1 shadow-glow';
+                
+                // Sim Update
+                document.getElementById('simName').innerText = bot.firstName;
+                document.getElementById('simAvatar').src = bot.avatar;
+            }
+        }
+
+        function renderRegisteredBotsModalList() {
+            const list = document.getElementById('registeredBotsList');
+            if(botsCollection.length === 0) {
+                list.innerHTML = `<div class="text-center p-4 text-xs text-slate-500">لا يوجد بوتات مسجلة بعد.</div>`;
+                return;
+            }
+
+            list.innerHTML = botsCollection.map(b => `
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <img src="${b.avatar}" class="w-8 h-8 rounded-lg object-cover">
+                        <div>
+                            <h4 class="font-bold text-xs text-slate-200">${b.firstName}</h4>
+                            <p class="text-[10px] text-tg-blue">@${b.username}</p>
+                        </div>
+                    </div>
+                    <button onclick="removeBotFromCollection(${b.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function removeBotFromCollection(id) {
+            botsCollection = botsCollection.filter(b => b.id !== id);
+            if(activeBotId === id) activeBotId = botsCollection.length > 0 ? botsCollection[0].id : null;
+            saveToLocalStorage();
+            renderBotsUI();
+            renderRegisteredBotsModalList();
+        }
+
+        // NAVIGATION TABS
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-tg-blue', 'text-white', 'shadow-lg');
+                btn.classList.add('text-slate-300');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('bg-tg-blue', 'text-white', 'shadow-lg');
+            activeBtn.classList.remove('text-slate-300');
+        }
+
+        // MEDIA TYPE SELECTOR
+        function setMediaType(type) {
+            currentMediaType = type;
+            document.querySelectorAll('.media-type-btn').forEach(btn => {
+                btn.classList.remove('bg-tg-blue', 'text-white');
+                btn.classList.add('bg-slate-900', 'text-slate-300');
+            });
+            document.getElementById(`media-btn-${type}`).classList.add('bg-tg-blue', 'text-white');
+            
+            const urlContainer = document.getElementById('mediaUrlContainer');
+            if(type === 'text') {
+                urlContainer.classList.add('hidden');
+            } else {
+                urlContainer.classList.remove('hidden');
+                document.getElementById('mediaUrlLabel').innerText = `رابط الـ ${type === 'photo' ? 'صورة' : type === 'video' ? 'فيديو' : 'مستند'}`;
+            }
+            updateLivePreview();
+        }
+
+        function fillAdminId() {
+            const bot = getActiveBot();
+            if(bot) document.getElementById('targetChatId').value = bot.id;
+        }
+
+        // KEYBOARD BUILDER ENGINE
+        function setKeyboardMode(mode) {
+            keyboardMode = mode;
+            document.getElementById('kb-mode-inline').className = mode === 'inline' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white' : 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400';
+            document.getElementById('kb-mode-reply').className = mode === 'reply' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white' : 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400';
+            renderKeyboardBuilder();
+            updateLivePreview();
+        }
+
+        function addNewKeyboardRow() {
+            const rowId = Date.now();
+            if(keyboardMode === 'inline') inlineKeyboardRows.push({ id: rowId, buttons: [] });
+            else replyKeyboardRows.push({ id: rowId, buttons: [] });
+            renderKeyboardBuilder();
+        }
+
+        function addButtonToRow(rowId) {
+            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
+            const row = rows.find(r => r.id === rowId);
+            if(row) {
+                row.buttons.push({
+                    id: Date.now(),
+                    text: 'زر جديد',
+                    type: keyboardMode === 'inline' ? 'url' : 'text',
+                    value: 'https://telegram.org'
+                });
+                renderKeyboardBuilder();
+                updateLivePreview();
+            }
+        }
+
+        function renderKeyboardBuilder() {
+            const container = document.getElementById('keyboardRowsWrapper');
+            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
+
+            if(rows.length === 0) {
+                container.innerHTML = `<div class="text-center p-6 text-slate-500 border border-dashed border-slate-800 rounded-xl">لا توجد أزرار مضافة، انقر "إضافة صف جديد".</div>`;
+                return;
+            }
+
+            container.innerHTML = rows.map((row, idx) => `
+                <div class="glass-card p-3 rounded-xl border border-slate-800 flex flex-col gap-2">
+                    <div class="flex justify-between items-center text-[11px] text-slate-400 font-bold">
+                        <span>صف الأزرار #${idx + 1}</span>
+                        <div class="flex gap-2">
+                            <button onclick="addButtonToRow(${row.id})" class="text-teal-400 hover:text-teal-300"><i class="fa-solid fa-plus"></i> إضافة زر</button>
+                            <button onclick="removeRow(${row.id})" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        ${row.buttons.map(btn => `
+                            <div class="bg-slate-900 p-2 rounded-lg border border-slate-800 flex flex-col gap-1.5 relative">
+                                <button onclick="removeBtn(${row.id}, ${btn.id})" class="absolute left-2 top-1.5 text-slate-500 hover:text-red-400 text-[10px]"><i class="fa-solid fa-times"></i></button>
+                                <input type="text" value="${btn.text}" oninput="updateBtnProp(${row.id}, ${btn.id}, 'text', this.value)" class="glass-input rounded px-2 py-1 text-xs text-white focus:outline-none" placeholder="عنوان الزر">
+                                ${keyboardMode === 'inline' ? `
+                                    <div class="grid grid-cols-3 gap-1">
+                                        <select onchange="updateBtnProp(${row.id}, ${btn.id}, 'type', this.value)" class="glass-input rounded px-1 py-1 text-[10px] text-white focus:outline-none">
+                                            <option value="url" ${btn.type === 'url' ? 'selected' : ''}>URL</option>
+                                            <option value="callback" ${btn.type === 'callback' ? 'selected' : ''}>Callback</option>
+                                            <option value="copy" ${btn.type === 'copy' ? 'selected' : ''}>Copy Text</option>
+                                        </select>
+                                        <input type="text" value="${btn.value}" oninput="updateBtnProp(${row.id}, ${btn.id}, 'value', this.value)" class="col-span-2 glass-input rounded px-2 py-1 text-[10px] text-white focus:outline-none" placeholder="القيم/الرابط">
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeRow(rowId) {
+            if(keyboardMode === 'inline') inlineKeyboardRows = inlineKeyboardRows.filter(r => r.id !== rowId);
+            else replyKeyboardRows = replyKeyboardRows.filter(r => r.id !== rowId);
+            renderKeyboardBuilder();
+            updateLivePreview();
+        }
+
+        function removeBtn(rowId, btnId) {
+            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
+            const row = rows.find(r => r.id === rowId);
+            if(row) {
+                row.buttons = row.buttons.filter(b => b.id !== btnId);
+                renderKeyboardBuilder();
+                updateLivePreview();
+            }
+        }
+
+        function updateBtnProp(rowId, btnId, key, val) {
+            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
+            const row = rows.find(r => r.id === rowId);
+            if(row) {
+                const btn = row.buttons.find(b => b.id === btnId);
+                if(btn) {
+                    btn[key] = val;
+                    updateLivePreview();
+                }
+            }
+        }
+
+        function resetKeyboardBuilder() {
+            inlineKeyboardRows = [];
+            replyKeyboardRows = [];
+            addNewKeyboardRow();
+            updateLivePreview();
+        }
+
+        // REALISTIC LIVE TELEGRAM SIMULATOR UPDATER
+        function updateLivePreview() {
+            const msgText = document.getElementById('messageBody').value;
+            const simText = document.getElementById('simTextBody');
+            const simMedia = document.getElementById('simMediaArea');
+            const simInline = document.getElementById('simInlineContainer');
+            const simReply = document.getElementById('simReplyKeyboardArea');
+            const mediaUrl = document.getElementById('mediaUrlInput').value;
+
+            // Set Text
+            simText.innerHTML = msgText.trim() ? msgText : 'نص المعاينة سيظهر هنا...';
+
+            // Media Preview
+            if(currentMediaType !== 'text' && mediaUrl.trim()) {
+                simMedia.classList.remove('hidden');
+                if(currentMediaType === 'photo') {
+                    simMedia.innerHTML = `<img src="${mediaUrl}" class="w-full h-32 object-cover" onerror="this.src='https://placehold.co/300x150/17212B/64B5F6?text=Invalid+Image'">`;
+                } else {
+                    simMedia.innerHTML = `<div class="p-3 bg-slate-900 text-slate-300 text-xs flex items-center gap-2"><i class="fa-solid fa-file"></i> <span>مرفق ${currentMediaType}</span></div>`;
+                }
+            } else {
+                simMedia.classList.add('hidden');
+            }
+
+            // Inline Keyboard Render
+            simInline.innerHTML = '';
+            inlineKeyboardRows.forEach(row => {
+                if(row.buttons.length > 0) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = "grid gap-1 w-full";
+                    rowDiv.style.gridTemplateColumns = `repeat(${row.buttons.length}, minmax(0, 1fr))`;
+                    row.buttons.forEach(btn => {
+                        const b = document.createElement('div');
+                        b.className = "bg-tg-btnBg text-tg-accent text-[11px] py-1 px-2 rounded font-semibold text-center truncate border border-tg-blue/20 flex items-center justify-center gap-1";
+                        b.innerHTML = `${btn.text} ${btn.type === 'url' ? '<i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i>' : ''}`;
+                        rowDiv.appendChild(b);
+                    });
+                    simInline.appendChild(rowDiv);
+                }
+            });
+
+            // Reply Keyboard Render
+            if(replyKeyboardRows.some(r => r.buttons.length > 0)) {
+                simReply.classList.remove('hidden');
+                simReply.innerHTML = '';
+                replyKeyboardRows.forEach(row => {
+                    if(row.buttons.length > 0) {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = "grid gap-1 w-full";
+                        rowDiv.style.gridTemplateColumns = `repeat(${row.buttons.length}, minmax(0, 1fr))`;
+                        row.buttons.forEach(btn => {
+                            const b = document.createElement('div');
+                            b.className = "bg-slate-800 text-slate-200 text-xs py-1.5 px-2 rounded font-semibold text-center truncate shadow";
+                            b.innerText = btn.text;
+                            rowDiv.appendChild(b);
+                        });
+                        simReply.appendChild(rowDiv);
+                    }
+                });
+            } else {
+                simReply.classList.add('hidden');
+            }
+        }
+
+        function insertFormat(open, close) {
+            const txt = document.getElementById('messageBody');
+            const start = txt.selectionStart;
+            const end = txt.selectionEnd;
+            const sel = txt.value.substring(start, end);
+            txt.value = txt.value.substring(0, start) + open + sel + close + txt.value.substring(end);
+            updateLivePreview();
+            txt.focus();
+        }
+
+        // SEND MESSAGE TELEGRAM API CALL
+        async function dispatchTelegramMessage() {
+            const bot = getActiveBot();
+            if(!bot) return showToast('يرجى اختيار بوت أولاً', 'error');
+
+            const target = document.getElementById('targetChatId').value.trim();
+            const message = document.getElementById('messageBody').value.trim();
+            if(!target || !message) return showToast('يرجى ملء كافة الحقول المباشرة', 'error');
+
+            const parseMode = document.getElementById('parseModeSelect').value;
+            const protectContent = document.getElementById('protectContentCheck').checked;
+            const disableNotif = document.getElementById('disableNotificationCheck').checked;
+
+            let endpoint = 'sendMessage';
+            let payload = {
+                chat_id: target,
+                protect_content: protectContent,
+                disable_notification: disableNotif
+            };
+
+            if(parseMode !== 'None') payload.parse_mode = parseMode;
+
+            // Handle Media Types
+            if(currentMediaType === 'text') {
+                payload.text = message;
+            } else {
+                const url = document.getElementById('mediaUrlInput').value.trim();
+                payload.caption = message;
+                if(currentMediaType === 'photo') { endpoint = 'sendPhoto'; payload.photo = url; }
+                if(currentMediaType === 'video') { endpoint = 'sendVideo'; payload.video = url; }
+                if(currentMediaType === 'document') { endpoint = 'sendDocument'; payload.document = url; }
+            }
+
+            // Inline Reply Markup
+            const inlineKeyboardFormatted = inlineKeyboardRows.map(r => 
+                r.buttons.map(b => {
+                    if(b.type === 'url') return { text: b.text, url: b.value };
+                    if(b.type === 'copy') return { text: b.text, copy_text: { text: b.value } };
+                    return { text: b.text, callback_data: b.value };
+                })
+            ).filter(r => r.length > 0);
+
+            if(inlineKeyboardFormatted.length > 0) {
+                payload.reply_markup = { inline_keyboard: inlineKeyboardFormatted };
+            }
+
+            logConsole(`جاري إرسال ${endpoint} إلى ${target}...`);
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+
+                if(data.ok) {
+                    showToast('تم إرسال الرسالة بنجاح! 🚀', 'success');
+                    logConsole(`تم الإرسال! Message ID: ${data.result.message_id}`, 'success');
+                } else {
+                    showToast(`خطأ Telegram: ${data.description}`, 'error');
+                    logConsole(`فشل: ${data.description}`, 'error');
+                }
+            } catch(e) {
+                showToast('حدث خطأ في الاتصال بالسيرفر', 'error');
+                logConsole(`خطأ شبكة: ${e.message}`, 'error');
+            }
+        }
+
+        // COMMANDS MANAGEMENT
+        function addCommandItem() {
+            const name = document.getElementById('cmdInputName').value.trim();
+            const desc = document.getElementById('cmdInputDesc').value.trim();
+            if(!name || !desc) return showToast('يرجى كتابة الأمر والوصف', 'error');
+
+            botCommands.push({ command: name, description: desc });
+            document.getElementById('cmdInputName').value = '';
+            document.getElementById('cmdInputDesc').value = '';
+            renderCommandsListTable();
+        }
+
+        function renderCommandsListTable() {
+            const tbody = document.getElementById('commandsListTable');
+            if(botCommands.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-500">لا يوجد أوامر مضافة.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = botCommands.map((c, i) => `
+                <tr class="hover:bg-slate-800/40">
+                    <td class="p-2.5 font-mono text-amber-400">/${c.command}</td>
+                    <td class="p-2.5 text-slate-300">${c.description}</td>
+                    <td class="p-2.5 text-center">
+                        <button onclick="botCommands.splice(${i},1); renderCommandsListTable();" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function saveCommandsToTelegram() {
+            const bot = getActiveBot();
+            if(!bot) return showToast('اختر بوت أولاً', 'error');
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/setMyCommands`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ commands: botCommands })
+                });
+                const data = await res.json();
+                if(data.ok) showToast('تم تحديث قائمة الأوامر بنجاح! ✨', 'success');
+                else showToast(`خطأ: ${data.description}`, 'error');
+            } catch(e) { showToast('خطأ بالشبكة', 'error'); }
+        }
+
+        async function fetchBotCommandsAPI() {
+            const bot = getActiveBot();
+            if(!bot) return;
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/getMyCommands`);
+                const data = await res.json();
+                if(data.ok) {
+                    botCommands = data.result || [];
+                    renderCommandsListTable();
+                    showToast('تم جلب الأوامر الحالية', 'success');
+                }
+            } catch(e){}
+        }
+
+        // WEBHOOK ENGINE
+        async function setWebhookAPI() {
+            const bot = getActiveBot();
+            const url = document.getElementById('webhookUrlInput').value.trim();
+            if(!bot || !url) return showToast('تأكد من إدخال البيانات', 'error');
+
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/setWebhook?url=${encodeURIComponent(url)}`);
+                const data = await res.json();
+                if(data.ok) showToast('تم تثبيت الويبهوك بنجاح!', 'success');
+                else showToast(`خطأ: ${data.description}`, 'error');
+            } catch(e){}
+        }
+
+        async function deleteWebhookAPI() {
+            const bot = getActiveBot();
+            if(!bot) return;
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/deleteWebhook`);
+                const data = await res.json();
+                if(data.ok) showToast('تم حذف الويبهوك بنجاح!', 'success');
+            } catch(e){}
+        }
+
+        // LONG POLLING REALTIME FEED
+        function togglePolling() {
+            const btn = document.getElementById('pollingToggleBtn');
+            if(pollingInterval) {
+                clearInterval(pollingInterval);
+                pollingInterval = null;
+                btn.className = "px-3 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold";
+                btn.innerText = "بدء الاستماع المباشر";
+                logConsole('تم إيقاف الاستماع المباشر.');
+            } else {
+                btn.className = "px-3 py-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-bold animate-pulse";
+                btn.innerText = "جاري الاستماع حياً...";
+                logConsole('تم تشغيل Long Polling لاستقبال الرسائل...');
+                pollingInterval = setInterval(fetchUpdatesLongPolling, 3000);
+            }
+        }
+
+        async function fetchUpdatesLongPolling() {
+            const bot = getActiveBot();
+            if(!bot) return;
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${bot.token}/getUpdates?offset=${lastUpdateId + 1}`);
+                const data = await res.json();
+                if(data.ok && data.result.length > 0) {
+                    data.result.forEach(update => {
+                        lastUpdateId = update.update_id;
+                        appendPollingFeed(update);
+                        triggerAutoResponder(update);
+                    });
+                }
+            } catch(e){}
+        }
+
+        function appendPollingFeed(update) {
+            const feed = document.getElementById('pollingUpdatesFeed');
+            const item = document.createElement('div');
+            item.className = "p-2 bg-slate-900 rounded border border-slate-800 text-emerald-400 font-mono text-[11px]";
+            item.innerText = JSON.stringify(update, null, 2);
+            feed.appendChild(item);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        // AUTOMATION & AUTO-RESPONDER RULES
+        function addAutoResponderRule() {
+            const trigger = document.getElementById('autoTrigger').value.trim();
+            const response = document.getElementById('autoResponse').value.trim();
+            if(!trigger || !response) return showToast('يرجى كتابة الكلمة والرد', 'error');
+
+            autoRules.push({ trigger, response });
+            saveToLocalStorage();
+            renderRulesList();
+            document.getElementById('autoTrigger').value = '';
+            document.getElementById('autoResponse').value = '';
+            showToast('تم حفظ القاعدة بنجاح!', 'success');
+        }
+
+        function renderRulesList() {
+            const container = document.getElementById('rulesListContainer');
+            if(autoRules.length === 0) {
+                container.innerHTML = `<div class="text-center text-xs text-slate-500 py-3">لا توجد قواعد رد آلي.</div>`;
+                return;
+            }
+            container.innerHTML = autoRules.map((r, i) => `
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                    <div>
+                        <span class="text-purple-400 font-bold">[إذا استلم]:</span> <span class="text-white">${r.trigger}</span>
+                        <div class="text-slate-400 text-[11px]"><span class="text-emerald-400 font-bold">[الرد]:</span> ${r.response}</div>
+                    </div>
+                    <button onclick="autoRules.splice(${i},1); saveToLocalStorage(); renderRulesList();" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        async function triggerAutoResponder(update) {
+            if(!update.message || !update.message.text) return;
+            const text = update.message.text;
+            const chatId = update.message.chat.id;
+
+            const matchedRule = autoRules.find(r => text.includes(r.trigger));
+            if(matchedRule) {
+                const bot = getActiveBot();
+                if(bot) {
+                    logConsole(`الرد الآلي مطبق للكلمة "${matchedRule.trigger}"...`);
+                    await fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text: matchedRule.response })
+                    });
+                }
+            }
+        }
+
+        // BACKUP EXPORT & IMPORT
+        function exportAppData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+                bots: botsCollection,
+                rules: autoRules
+            }));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `telegram_studio_backup_${Date.now()}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('تم تصدير النسخة الاحتياطية بنجاح!', 'success');
+        }
+
+        function importAppData(event) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if(parsed.bots) botsCollection = parsed.bots;
+                    if(parsed.rules) autoRules = parsed.rules;
+                    saveToLocalStorage();
+                    renderBotsUI();
+                    renderRulesList();
+                    showToast('تم استيراد البيانات بنجاح!', 'success');
+                } catch(err) { showToast('الملف غير صالح!', 'error'); }
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
+        // LOGGERS & TOASTS
+        function logConsole(msg, type = 'info') {
+            const c = document.getElementById('miniConsoleLog');
+            const time = new Date().toLocaleTimeString('ar-EG');
+            let color = 'text-emerald-400';
+            if(type === 'error') color = 'text-red-400';
+            if(type === 'success') color = 'text-cyan-400';
+
+            const item = document.createElement('div');
+            item.className = `${color}`;
+            item.innerText = `[${time}] ${msg}`;
+            c.appendChild(item);
+            c.scrollTop = c.scrollHeight;
+        }
+
+        function clearConsoleLogs() {
+            document.getElementById('miniConsoleLog').innerHTML = '';
+        }
+
+        function showToast(msg, type = 'info') {
+            const stack = document.getElementById('toastStack');
+            const toast = document.createElement('div');
+            let bg = type === 'success' ? 'bg-emerald-950 border-emerald-600 text-emerald-200' : type === 'error' ? 'bg-red-950 border-red-600 text-red-200' : 'bg-tg-card border-tg-blue text-tg-blue';
+            toast.className = `px-4 py-3 rounded-2xl border shadow-2xl text-xs font-bold flex items-center gap-2 pointer-events-auto transition-all transform duration-300 ${bg}`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${msg}</span>`;
+            stack.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
