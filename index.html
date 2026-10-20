@@ -1,29 +1,34 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+te.now()}<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استوديو تليجرام الشامل لإدارة البوتات | Ultimate Bot Studio</title>
+    <title>منصة إدارة بوت تليجرام وشجرة الأزرار المتشعبة ونظام النجوم Enterprise</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome 6 Pro/Free -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts (Cairo & Fira Code) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Cairo, Fira Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        tg: {
-                            blue: '#24A1DE',
-                            darkBlue: '#1C82B6',
-                            bg: '#0E1621',
-                            card: '#17212B',
-                            hover: '#202B36',
-                            bubble: '#182533',
-                            btnBg: '#2B5278',
-                            accent: '#64B5F6'
+                        cyber: {
+                            bg: '#050811',
+                            card: '#0d1322',
+                            panel: 'rgba(13, 19, 34, 0.85)',
+                            border: '#1e293b',
+                            accent: '#00e5ff',
+                            primary: '#0088cc',
+                            star: '#ffd700',
+                            starGlow: 'rgba(255, 215, 0, 0.25)',
+                            purple: '#a855f7',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
                         }
                     },
                     fontFamily: {
@@ -34,798 +39,1128 @@
             }
         }
     </script>
+
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at top left, #17212B, #0E1621, #080C14);
-            color: #F8FAFC;
-            min-height: 100vh;
+            background-color: #040711;
+            color: #f1f5f9;
+            overflow-x: hidden;
         }
-        .glass {
-            background: rgba(23, 33, 43, 0.75);
-            backdrop-filter: blur(16px);
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(13, 19, 34, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .glass-card {
-            background: rgba(14, 22, 33, 0.65);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+
+        .glass-panel-star {
+            background: rgba(22, 27, 46, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.12);
         }
+
+        .glass-panel-glow {
+            background: rgba(13, 19, 34, 0.92);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 35px rgba(0, 136, 204, 0.18);
+        }
+
         .glass-input {
-            background: rgba(8, 12, 20, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(26, 36, 56, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .glass-input:focus {
-            border-color: #24A1DE;
-            box-shadow: 0 0 15px rgba(36, 161, 222, 0.25);
+            background: rgba(26, 36, 56, 0.95);
+            border-color: #00e5ff;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+            outline: none;
         }
-        /* Telegram Phone Simulator Pattern */
-        .tg-bg-pattern {
+
+        /* Telegram Dark Mobile Simulator */
+        .telegram-bg {
             background-color: #0e1621;
-            background-image: radial-gradient(#1c2a38 1px, transparent 0);
-            background-size: 16px 16px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0);
+            background-size: 20px 20px;
         }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0E1621; }
-        ::-webkit-scrollbar-thumb { background: #202B36; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #24A1DE; }
+
+        .tg-bubble {
+            background-color: #182533;
+            border-radius: 14px 14px 3px 14px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+        }
+
+        .tg-btn {
+            background: rgba(255, 255, 255, 0.09);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.15s ease;
+        }
+        .tg-btn:hover {
+            background: rgba(0, 229, 255, 0.22);
+            border-color: rgba(0, 229, 255, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .tg-star-btn {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+        }
+        .tg-star-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.35) 0%, rgba(245, 158, 11, 0.35) 100%);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 15, 28, 0.8);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 229, 255, 0.35);
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 229, 255, 0.7);
+        }
+
+        /* Animations */
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,215,0,0.6)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(255,215,0,0.9)); }
+        }
+        .star-anim {
+            animation: starPulse 3s infinite ease-in-out;
+        }
+
+        /* Tree Node Styles */
+        .tree-connector {
+            position: relative;
+        }
+        .tree-connector::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            right: 50%;
+            width: 2px;
+            height: 16px;
+            background: rgba(0, 229, 255, 0.4);
+        }
     </style>
 </head>
-<body class="flex flex-col justify-between min-h-screen overflow-x-hidden">
+<body class="min-h-screen text-slate-100 flex flex-col justify-between selection:bg-cyan-500 selection:text-slate-950">
 
-    <!-- TOP HEADER NAVBAR -->
-    <header class="glass sticky top-0 z-50 px-4 lg:px-8 py-3 flex items-center justify-between shadow-2xl border-b border-slate-800">
-        <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-tg-blue to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-tg-blue/30 text-2xl">
-                <i class="fa-brands fa-telegram"></i>
-            </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="font-extrabold text-lg text-white tracking-wide">Telegram Studio</h1>
-                    <span class="text-[10px] bg-gradient-to-r from-tg-blue to-teal-400 text-slate-950 font-black px-2 py-0.5 rounded-full uppercase">v2.5 Ultimate</span>
+    <!-- TOP CONTROL NAVIGATION HEADER -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-slate-800/80 px-4 py-3 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-3.5">
+                <div class="relative">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25">
+                        <i class="fa-brands fa-telegram text-2xl"></i>
+                    </div>
+                    <span class="absolute -bottom-1 -left-1 w-5 h-5 bg-amber-400 text-slate-950 rounded-full flex items-center justify-center text-[10px] font-black border-2 border-slate-900 shadow">
+                        <i class="fa-star"></i>
+                    </span>
                 </div>
-                <p class="text-xs text-slate-400 font-medium">الاستوديو الشامل للتحكم المتقدم والأتمتة لبوتات تليجرام</p>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-black text-lg leading-tight bg-gradient-to-r from-cyan-400 via-blue-400 to-amber-300 bg-clip-text text-transparent">
+                            Telegram Enterprise Studio Pro
+                        </h1>
+                        <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                            <i class="fa-star text-[9px]"></i> Stars Engine 2026
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium">نقل الوسائط • شجرة الأزرار المتشعبة اللانهائية • نظام تحويل فواتير النجوم</p>
+                </div>
             </div>
-        </div>
 
-        <!-- Bot Selector & Dynamic Status -->
-        <div class="flex items-center gap-3">
-            <div class="hidden md:flex items-center gap-2 bg-slate-900/90 p-1.5 px-3 rounded-xl border border-slate-800">
-                <i class="fa-solid fa-robot text-tg-blue text-sm"></i>
-                <select id="activeBotSelect" onchange="switchActiveBot(this.value)" class="bg-transparent text-xs text-slate-200 font-semibold focus:outline-none cursor-pointer">
-                    <!-- Populated dynamically -->
-                </select>
+            <!-- Bot Connection & Wallet Live Status Badge -->
+            <div class="flex items-center gap-3">
+                
+                <!-- Stars Wallet Quick Ledger Indicator -->
+                <div onclick="switchMainTab('stars')" class="glass-panel-star cursor-pointer px-3.5 py-1.5 rounded-2xl flex items-center gap-2.5 transition hover:scale-105">
+                    <i class="fa-star text-amber-400 text-lg star-anim"></i>
+                    <div>
+                        <div class="text-[10px] text-amber-300/80 font-bold leading-none">رصيد الآيدي (8505592972)</div>
+                        <div id="topWalletBalance" class="text-sm font-black text-amber-400 font-mono leading-tight">0 XTR</div>
+                    </div>
+                </div>
+
+                <!-- Bot Status Badge -->
+                <div id="botStatusBadge" class="flex items-center gap-2.5 bg-slate-900/90 border border-slate-800 px-3.5 py-1.5 rounded-2xl text-xs font-semibold">
+                    <span id="statusIndicator" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></span>
+                    <div>
+                        <span id="statusText" class="text-amber-400 block leading-tight text-[11px]">جاري الفحص...</span>
+                        <span id="botInfoText" class="text-slate-400 font-mono text-[10px] block leading-tight">@8903469723</span>
+                    </div>
+                </div>
+
             </div>
 
-            <button onclick="openManageBotsModal()" class="px-3.5 py-2 bg-tg-blue/20 hover:bg-tg-blue/30 text-tg-blue border border-tg-blue/30 rounded-xl text-xs font-bold transition flex items-center gap-2">
-                <i class="fa-solid fa-layer-group"></i>
-                <span>إدارة البوتات (<span id="botCountBadge">0</span>)</span>
-            </button>
+            <!-- Top Header Action Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="checkBotConnection()" title="فحص حالة البوت" class="glass-panel hover:bg-slate-800 text-cyan-400 p-2.5 rounded-xl border border-cyan-500/30 transition text-xs flex items-center gap-1.5 font-bold">
+                    <i class="fa-sync text-sm"></i>
+                    <span class="hidden sm:inline">فحص الاتصال</span>
+                </button>
+                <button onclick="exportFullProject()" title="تصدير شجرة الأزرار والمشروع" class="glass-panel hover:bg-slate-800 text-purple-400 p-2.5 rounded-xl border border-purple-500/30 transition text-xs flex items-center gap-1.5 font-bold">
+                    <i class="fa-download text-sm"></i>
+                    <span class="hidden sm:inline">تصدير JSON</span>
+                </button>
+                <button onclick="document.getElementById('importProjectFile').click()" title="استيراد مشروع" class="glass-panel hover:bg-slate-800 text-emerald-400 p-2.5 rounded-xl border border-emerald-500/30 transition text-xs flex items-center gap-1.5 font-bold">
+                    <i class="fa-upload text-sm"></i>
+                    <span class="hidden sm:inline">استيراد</span>
+                </button>
+                <input type="file" id="importProjectFile" class="hidden" accept=".json" onchange="importFullProject(event)">
+            </div>
         </div>
     </header>
 
-    <!-- MAIN APP LAYOUT -->
-    <main class="container mx-auto px-3 lg:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- MAIN TAB NAVIGATION BAR -->
+    <div class="max-w-7xl w-full mx-auto px-4 pt-4">
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-800/80 text-xs font-bold">
+            <button onclick="switchMainTab('editor')" id="mainTab-editor" class="main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20">
+                <i class="fa-box-archive text-sm"></i> نقل الملفات وشجرة الأزرار
+            </button>
+            <button onclick="switchMainTab('stars')" id="mainTab-stars" class="main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                <i class="fa-star text-amber-400 text-sm"></i> محرك نجوم تليجرام (Telegram Stars Invoice)
+            </button>
+            <button onclick="switchMainTab('treeVisual')" id="mainTab-treeVisual" class="main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                <i class="fa-sitemap text-purple-400 text-sm"></i> الخريطة المرئية للشجرة المتشعبة
+            </button>
+            <button onclick="switchMainTab('settings')" id="mainTab-settings" class="main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                <i class="fa-gear text-slate-400 text-sm"></i> إعدادات البوت والـ API
+            </button>
+            <button onclick="switchMainTab('logs')" id="mainTab-logs" class="main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                <i class="fa-list-check text-emerald-400 text-sm"></i> سجل طلبات API المباشر (<span id="logsCountBadge">0</span>)
+            </button>
+        </div>
+    </div>
 
-        <!-- SIDEBAR NAVIGATION & PROFILE CARD (3 Cols) -->
-        <aside class="lg:col-span-3 flex flex-col gap-4">
-            
-            <!-- Active Bot Card -->
-            <div class="glass rounded-2xl p-4 border border-slate-800 flex flex-col gap-3 relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 w-24 h-24 bg-tg-blue/10 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <div class="flex items-center gap-3">
-                    <div class="relative">
-                        <img id="activeBotAvatar" src="https://placehold.co/100x100/17212B/64B5F6?text=BOT" alt="Bot" class="w-14 h-14 rounded-2xl border-2 border-tg-blue/40 object-cover shadow-md">
-                        <span id="activeBotStatusDot" class="w-3.5 h-3.5 bg-slate-500 border-2 border-tg-card rounded-full absolute -bottom-1 -left-1"></span>
-                    </div>
-                    <div class="overflow-hidden">
-                        <h3 id="activeBotName" class="font-bold text-slate-100 text-sm truncate">لم يتم تحديد بوت</h3>
-                        <p id="activeBotUsername" class="text-xs text-tg-accent truncate dir-ltr text-right">@no_bot_selected</p>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span id="activeBotId" class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800 font-mono">ID: -</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- MAIN CONTENT WORKSPACE -->
+    <main class="max-w-7xl w-full mx-auto p-4 md:p-6 flex-grow">
 
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-[11px]">
-                    <button onclick="pingActiveBot()" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-rotate text-tg-blue"></i> فحص الاتصال
-                    </button>
-                    <button onclick="openWebhookModal()" class="py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded-lg flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-network-wired text-emerald-400"></i> الويبهوك
-                    </button>
-                </div>
-            </div>
+        <!-- ==================== TAB 1: ADVANCED FILE TRANSMISSION & TREE BUTTON BUILDER ==================== -->
+        <div id="section-editor" class="tab-section grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- Navigation Tabs -->
-            <nav class="glass rounded-2xl p-2 flex flex-col gap-1 border border-slate-800">
-                <button onclick="switchTab('tab-msg')" id="btn-tab-msg" class="tab-btn active w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right bg-tg-blue text-white shadow-lg shadow-tg-blue/20">
-                    <i class="fa-solid fa-paper-plane w-4 text-center"></i>
-                    <span>مركز الرسائل والوسائط</span>
-                </button>
+            <!-- LEFT WORKSPACE COLUMN (7 Columns) -->
+            <div class="lg:col-span-7 space-y-6">
 
-                <button onclick="switchTab('tab-keyboards')" id="btn-tab-keyboards" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-solid fa-table-cells-large w-4 text-center text-teal-400"></i>
-                    <span>صانع الأزرار التفاعلية</span>
-                </button>
-
-                <button onclick="switchTab('tab-commands')" id="btn-tab-commands" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-solid fa-terminal w-4 text-center text-amber-400"></i>
-                    <span>الأوامر والقائمة المباشرة</span>
-                </button>
-
-                <button onclick="switchTab('tab-auto')" id="btn-tab-auto" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-solid fa-bolt w-4 text-center text-purple-400"></i>
-                    <span>الأتمتة والردود الآلية</span>
-                </button>
-
-                <button onclick="switchTab('tab-polling')" id="btn-tab-polling" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-solid fa-rss w-4 text-center text-rose-400"></i>
-                    <span>التحديثات الحية (Long Polling)</span>
-                </button>
-
-                <button onclick="switchTab('tab-backup')" id="btn-tab-backup" class="tab-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition text-right text-slate-300 hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-solid fa-database w-4 text-center text-cyan-400"></i>
-                    <span>النسخ الاحتياطي والأدوات</span>
-                </button>
-            </nav>
-
-            <!-- Quick Console Mini Log -->
-            <div class="glass-card rounded-2xl p-3 text-xs flex flex-col gap-2 border border-slate-800">
-                <div class="flex justify-between items-center text-slate-400">
-                    <span class="font-bold flex items-center gap-1"><i class="fa-solid fa-code text-tg-blue"></i> السجل السريع</span>
-                    <button onclick="clearConsoleLogs()" class="text-[10px] hover:text-slate-200">مسح</button>
-                </div>
-                <div id="miniConsoleLog" class="font-mono text-[11px] h-28 overflow-y-auto bg-slate-950/80 p-2 rounded-lg text-emerald-400 border border-slate-900 flex flex-col gap-1">
-                    <div class="text-slate-600">// مرحباً بك في استوديو تليجرام...</div>
-                </div>
-            </div>
-
-        </aside>
-
-        <!-- MAIN WORKING WORKSPACE (6 Cols) -->
-        <section class="lg:col-span-5 flex flex-col gap-6">
-
-            <!-- TAB 1: ADVANCED MESSAGING CENTER -->
-            <div id="tab-msg" class="tab-content flex flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-tg-blue"></i>
-                            <span>مرسل الرسائل والوسائط المتعددة</span>
+                <!-- File & Media Hub Card -->
+                <div class="glass-panel rounded-3xl p-5 border border-slate-800/80 relative overflow-hidden space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <h2 class="font-black text-base flex items-center gap-2 text-cyan-400">
+                            <i class="fa-cloud-arrow-up text-lg"></i> مركز رفع ونقل وسائل ومستندات تليجرام Enterprise
                         </h2>
-                        <span class="text-[10px] bg-tg-blue/20 text-tg-blue font-semibold px-2 py-0.5 rounded">SendMessage API</span>
+                        <span class="text-[10px] bg-cyan-950/80 text-cyan-300 border border-cyan-800/60 px-2.5 py-1 rounded-full font-mono">
+                            Bot API Direct Streams
+                        </span>
                     </div>
 
-                    <!-- Target Chat ID -->
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">المستهدف (Chat ID / Username)</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="targetChatId" placeholder="مثال: 123456789 أو @channel_name" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none">
-                            <button onclick="fillAdminId()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold whitespace-nowrap border border-slate-700">
-                                الأي دي الخاص بي
+                    <!-- Media Categories Grid Selector -->
+                    <div class="grid grid-cols-4 sm:grid-cols-8 gap-1.5 p-1 bg-slate-900/90 rounded-2xl border border-slate-800 text-[11px] font-extrabold">
+                        <button onclick="setMediaType('text')" id="mTab-text" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition bg-cyan-600 text-white">
+                            <i class="fa-align-right text-xs"></i> نص
+                        </button>
+                        <button onclick="setMediaType('document')" id="mTab-document" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-file-zipper text-xs"></i> مستند/ملف
+                        </button>
+                        <button onclick="setMediaType('photo')" id="mTab-photo" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-image text-xs"></i> صورة
+                        </button>
+                        <button onclick="setMediaType('video')" id="mTab-video" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-video text-xs"></i> فيديو
+                        </button>
+                        <button onclick="setMediaType('video_note')" id="mTab-video_note" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-circle-dot text-xs"></i> فيديو دائري
+                        </button>
+                        <button onclick="setMediaType('audio')" id="mTab-audio" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-music text-xs"></i> صوتي
+                        </button>
+                        <button onclick="setMediaType('voice')" id="mTab-voice" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-microphone text-xs"></i> فويس
+                        </button>
+                        <button onclick="setMediaType('album')" id="mTab-album" class="m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white">
+                            <i class="fa-images text-xs"></i> ألبوم مجمع
+                        </button>
+                    </div>
+
+                    <!-- Input Controls Area -->
+                    <div class="space-y-4">
+
+                        <!-- Formatting Toolbar & Caption Input -->
+                        <div>
+                            <div class="flex flex-wrap justify-between items-center mb-1.5 gap-2">
+                                <label class="text-xs font-extrabold text-slate-300">نص الرسالة / الوصف (Caption / Text):</label>
+                                <!-- Formatting Toolbar -->
+                                <div class="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-xl border border-slate-800 text-[11px]">
+                                    <button onclick="insertTag('<b>', '</b>')" title="عريض Bold" class="px-2 py-0.5 hover:bg-slate-800 rounded font-bold text-slate-200">B</button>
+                                    <button onclick="insertTag('<i>', '</i>')" title="مائل Italic" class="px-2 py-0.5 hover:bg-slate-800 rounded italic text-slate-200">I</button>
+                                    <button onclick="insertTag('<code>', '</code>')" title="كود Code" class="px-2 py-0.5 hover:bg-slate-800 rounded font-mono text-cyan-400">&lt;&gt;</button>
+                                    <button onclick="insertTag('<u>', '</u>')" title="تحته خط Underline" class="px-2 py-0.5 hover:bg-slate-800 rounded underline text-slate-200">U</button>
+                                    <button onclick="insertTag('<s>', '</s>')" title="مشطوب Strikethrough" class="px-2 py-0.5 hover:bg-slate-800 rounded line-through text-slate-200">S</button>
+                                    <button onclick="insertTag('<tg-spoiler>', '</tg-spoiler>')" title="نص مخفي spoiler" class="px-2 py-0.5 hover:bg-slate-800 rounded text-amber-400"><i class="fa-eye-slash"></i></button>
+                                    <button onclick="insertTag('<a href=\'https://t.me\'>', '</a>')" title="رابط خارجي" class="px-2 py-0.5 hover:bg-slate-800 rounded text-blue-400"><i class="fa-link"></i></button>
+                                </div>
+                            </div>
+                            <textarea id="captionInput" rows="3" oninput="renderSimulator()" placeholder="اكتب نص الرسالة هنا... يدعم تنسيقات HTML الشاملة والرموز التعبيرية ⚡" class="glass-input w-full p-3 rounded-2xl text-xs leading-relaxed"></textarea>
+                        </div>
+
+                        <!-- Direct Attachment Box -->
+                        <div id="fileUploadBox" class="hidden space-y-3 p-4 bg-slate-900/80 rounded-2xl border border-slate-800">
+                            
+                            <!-- File Drag & Drop Attachment Area -->
+                            <div class="border-2 border-dashed border-slate-700 hover:border-cyan-500 rounded-2xl p-4 text-center transition cursor-pointer relative bg-slate-950/60" onclick="document.getElementById('localFileInput').click()">
+                                <input type="file" id="localFileInput" onchange="handleFileSelect(event)" class="hidden">
+                                <i class="fa-cloud-arrow-up text-3xl text-cyan-400 mb-2"></i>
+                                <p id="fileAttachedLabel" class="text-xs font-bold text-slate-200">انقر هنا لاختيار ملف محلي نرفعه مباشرة لـ Telegram Server</p>
+                                <p class="text-[10px] text-slate-500 mt-1">يتم الرفع عبر Multipart FormData للرسالة المباشرة</p>
+                            </div>
+
+                            <!-- URL or File_ID Fallback Inputs -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                <div>
+                                    <label class="text-[11px] font-bold text-slate-400 mb-1 block">رابط وسيطة مباشر (Direct URL):</label>
+                                    <input type="text" id="fileUrlInput" oninput="renderSimulator()" placeholder="https://site.com/file.png" class="glass-input w-full p-2.5 rounded-xl text-xs font-mono">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-bold text-slate-400 mb-1 block">أو Telegram File_ID جاهز:</label>
+                                    <input type="text" id="telegramFileIdInput" oninput="renderSimulator()" placeholder="AgACAgIAAxkBAAE..." class="glass-input w-full p-2.5 rounded-xl text-xs font-mono">
+                                </div>
+                            </div>
+
+                            <!-- Extra Audio Metadata -->
+                            <div id="audioMetadataFields" class="hidden grid grid-cols-2 gap-3 pt-2 border-t border-slate-800">
+                                <input type="text" id="audioPerformer" oninput="renderSimulator()" placeholder="اسم الفنان / المنشد" class="glass-input p-2 rounded-xl text-xs">
+                                <input type="text" id="audioTitle" oninput="renderSimulator()" placeholder="عنوان المقطع الصوتي" class="glass-input p-2 rounded-xl text-xs">
+                            </div>
+                        </div>
+
+                        <!-- Multi-Media Album Manager -->
+                        <div id="albumContainer" class="hidden p-4 bg-slate-900/80 rounded-2xl border border-slate-800 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="text-xs font-black text-purple-400 flex items-center gap-1.5">
+                                    <i class="fa-layer-group"></i> عناصر الألبوم المجمع (حتى 10 وسائط)
+                                </label>
+                                <button onclick="addAlbumItem()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1">
+                                    <i class="fa-plus"></i> إضافة وسيطة للألبوم
+                                </button>
+                            </div>
+                            <div id="albumList" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+                        </div>
+
+                        <!-- Advanced Telegram Flags -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-2 border-t border-slate-800/80 text-xs font-semibold">
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 cursor-pointer hover:bg-slate-800/60 transition">
+                                <input type="checkbox" id="flagProtectContent" onchange="renderSimulator()" class="rounded border-slate-700 text-cyan-500 focus:ring-0 bg-slate-800">
+                                <span class="text-slate-300">منع إعادة التوجيه والحفظ (Protect)</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 cursor-pointer hover:bg-slate-800/60 transition">
+                                <input type="checkbox" id="flagSilent" class="rounded border-slate-700 text-cyan-500 focus:ring-0 bg-slate-800">
+                                <span class="text-slate-300">إرسال هادئ بدون صوت (Silent)</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800 cursor-pointer hover:bg-slate-800/60 transition">
+                                <input type="checkbox" id="flagHasSpoiler" onchange="renderSimulator()" class="rounded border-slate-700 text-cyan-500 focus:ring-0 bg-slate-800">
+                                <span class="text-slate-300">تغطية حساسة (Spoiler Overlay)</span>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Deep Multi-Level Tree Button Builder Card -->
+                <div class="glass-panel rounded-3xl p-5 border border-slate-800/80 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                        <div>
+                            <h2 class="font-black text-base flex items-center gap-2 text-purple-400">
+                                <i class="fa-sitemap text-lg"></i> محرك شجرة الأزرار المتشعبة واللانهائية (Nested Tree Builder)
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5">تصميم وتنظيم التسلسل الهرمي للأزرار، التفرعات، وتحديد النجوم المطلوب دفعها</p>
+                        </div>
+
+                        <!-- Keyboard Mode Switcher -->
+                        <div class="flex items-center bg-slate-900 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
+                            <button id="kbTypeInline" onclick="setKeyboardType('inline')" class="px-3.5 py-1.5 rounded-xl bg-purple-600 text-white transition">
+                                Inline Keyboards
+                            </button>
+                            <button id="kbTypeReply" onclick="setKeyboardType('reply')" class="px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition">
+                                Reply Keyboards
                             </button>
                         </div>
                     </div>
 
-                    <!-- Media Type Selector -->
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5">نوع المحتوى المرفق</label>
-                        <div class="grid grid-cols-4 gap-2">
-                            <button onclick="setMediaType('text')" id="media-btn-text" class="media-type-btn active py-2 rounded-xl text-xs font-bold border border-slate-700 bg-tg-blue text-white">نص عادي</button>
-                            <button onclick="setMediaType('photo')" id="media-btn-photo" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">صورة</button>
-                            <button onclick="setMediaType('video')" id="media-btn-video" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">فيديو</button>
-                            <button onclick="setMediaType('document')" id="media-btn-document" class="media-type-btn py-2 rounded-xl text-xs font-bold border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800">مستند</button>
-                        </div>
+                    <!-- Menu Node Navigator Bar -->
+                    <div id="treeBreadcrumb" class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-2xl border border-slate-800 text-xs font-bold overflow-x-auto">
+                        <span class="text-slate-500">مسار الشجرة الحالي:</span>
+                        <button onclick="navigateToNode('root')" class="px-2.5 py-1 bg-cyan-950 text-cyan-300 border border-cyan-800 rounded-lg hover:bg-cyan-900">
+                            <i class="fa-house text-[10px]"></i> الرسالة الرئيسية (Root)
+                        </button>
                     </div>
 
-                    <!-- Dynamic Media URL Input -->
-                    <div id="mediaUrlContainer" class="hidden">
-                        <label class="block text-xs font-semibold text-slate-300 mb-1.5" id="mediaUrlLabel">رابط الملف / الوسائط</label>
-                        <input type="url" id="mediaUrlInput" oninput="updateLivePreview()" placeholder="https://domain.com/file.jpg" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none dir-ltr text-left">
+                    <!-- Presets & Quick Generators -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                        <span class="text-xs font-bold text-slate-400 whitespace-nowrap"><i class="fa-bolt text-amber-400"></i> قوالب الشجرة المتشعبة:</span>
+                        <button onclick="loadTreePreset('starFileStore')" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-xl text-xs whitespace-nowrap transition flex items-center gap-1 font-bold">
+                            <i class="fa-star"></i> متجر الملفات بالنجوم
+                        </button>
+                        <button onclick="loadTreePreset('nestedSubmenu')" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-purple-500/40 text-purple-300 rounded-xl text-xs whitespace-nowrap transition flex items-center gap-1 font-bold">
+                            <i class="fa-folder-tree"></i> شجرة تفرعات عميقة 3 مستويات
+                        </button>
+                        <button onclick="loadTreePreset('supportSystem')" class="px-3 py-1 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs whitespace-nowrap transition flex items-center gap-1 font-bold">
+                            <i class="fa-headset"></i> شجرة الدعم والتنقل
+                        </button>
                     </div>
 
-                    <!-- Formatting Toolbar & Message Text Area -->
-                    <div>
-                        <div class="flex justify-between items-center mb-1.5">
-                            <label class="block text-xs font-semibold text-slate-300">نص الرسالة / الكابشن</label>
-                            <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
-                                <button onclick="insertFormat('<b>', '</b>')" class="px-2 py-0.5 text-xs font-bold hover:bg-slate-800 text-slate-200 rounded">B</button>
-                                <button onclick="insertFormat('<i>', '</i>')" class="px-2 py-0.5 text-xs italic hover:bg-slate-800 text-slate-200 rounded">I</button>
-                                <button onclick="insertFormat('<code>', '</code>')" class="px-2 py-0.5 text-xs font-mono hover:bg-slate-800 text-slate-200 rounded">&lt;&gt;</button>
-                                <button onclick="insertFormat('<tg-spoiler>', '</tg-spoiler>')" class="px-2 py-0.5 text-xs hover:bg-slate-800 text-slate-200 rounded">Spoiler</button>
-                                <button onclick="insertFormat('<a href=\'https://telegram.org\'>', '</a>')" class="px-2 py-0.5 text-xs hover:bg-slate-800 text-slate-200 rounded"><i class="fa-solid fa-link"></i></button>
-                            </div>
-                        </div>
-                        <textarea id="messageBody" rows="5" oninput="updateLivePreview()" placeholder="اكتب رسالتك هنا بكل احترافية..." class="glass-input w-full rounded-xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none leading-relaxed"></textarea>
+                    <!-- Active Node Buttons Canvas -->
+                    <div id="keyboardCanvas" class="space-y-3">
+                        <!-- Dynamic Rows Rendered by JS -->
                     </div>
 
-                    <!-- Dispatch Options -->
-                    <div class="grid grid-cols-2 gap-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
-                        <div>
-                            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Parse Mode</label>
-                            <select id="parseModeSelect" class="glass-input w-full rounded-lg px-2 py-1.5 text-xs text-white focus:outline-none">
-                                <option value="HTML">HTML (موصى به)</option>
-                                <option value="MarkdownV2">MarkdownV2</option>
-                                <option value="None">بدون تنسيق</option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col justify-center gap-1.5 pt-2">
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="protectContentCheck" class="sr-only peer">
-                                <div class="w-7 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-tg-blue relative"></div>
-                                <span class="mr-2 text-[11px] text-slate-300">حماية من إعادة التوجيه</span>
-                            </label>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="disableNotificationCheck" class="sr-only peer">
-                                <div class="w-7 h-4 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-tg-blue relative"></div>
-                                <span class="mr-2 text-[11px] text-slate-300">إرسال بدون صوت تنبيه</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button onclick="dispatchTelegramMessage()" class="w-full py-3 bg-gradient-to-r from-tg-blue to-teal-500 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-lg shadow-tg-blue/20 transition flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
-                        <i class="fa-solid fa-paper-plane"></i>
-                        <span>إرسال الرسالة الآن</span>
+                    <!-- Add Row Button -->
+                    <button onclick="addKeyboardRow()" class="w-full py-3.5 bg-slate-900/90 hover:bg-slate-800 border-2 border-dashed border-slate-700 hover:border-purple-500 rounded-2xl text-xs font-black text-purple-400 hover:text-purple-300 transition flex items-center justify-center gap-2">
+                        <i class="fa-plus-circle text-base"></i> إضافة صف أزرار جديد للمستوى الحالي
                     </button>
                 </div>
+
             </div>
 
-            <!-- TAB 2: ADVANCED KEYBOARD BUILDER -->
-            <div id="tab-keyboards" class="tab-content hidden flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <div>
-                            <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                                <i class="fa-solid fa-table-cells-large text-teal-400"></i>
-                                <span>صانع الأزرار التفاعلية الشفاف والشامل</span>
-                            </h2>
-                            <p class="text-[11px] text-slate-400">أنشئ Inline Keyboards أو Reply Keyboards بأدق التفاصيل</p>
-                        </div>
+            <!-- RIGHT WORKSPACE COLUMN: REAL-TIME TELEGRAM DARK SIMULATOR & DISPATCHER (5 Columns) -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- Real-Time Telegram Phone Mockup -->
+                <div class="glass-panel-glow rounded-[36px] p-4 border border-cyan-500/30 flex flex-col items-center shadow-2xl">
+                    <div class="w-full flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-xs">
+                        <span class="font-extrabold text-slate-200 flex items-center gap-2">
+                            <i class="fa-mobile-screen text-cyan-400 text-base"></i> محاكي تليجرام الداكن المباشر
+                        </span>
+                        <span class="flex items-center gap-1.5 text-emerald-400 font-mono text-[10px] bg-emerald-950/80 border border-emerald-800 px-2.5 py-0.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> متفاعل بالكامل
+                        </span>
                     </div>
 
-                    <!-- Mode Selector -->
-                    <div class="flex bg-slate-900 p-1 rounded-xl border border-slate-800">
-                        <button onclick="setKeyboardMode('inline')" id="kb-mode-inline" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white">أزرار شفافة (Inline Keyboard)</button>
-                        <button onclick="setKeyboardMode('reply')" id="kb-mode-reply" class="flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">كيبورد ردود (Reply Keyboard)</button>
-                    </div>
-
-                    <!-- Keyboard Builder Canvas -->
-                    <div id="keyboardRowsWrapper" class="flex flex-col gap-3 min-h-[200px]">
-                        <!-- Dynamic Rows injected here -->
-                    </div>
-
-                    <div class="flex items-center justify-between pt-3 border-t border-slate-800">
-                        <button onclick="addNewKeyboardRow()" class="px-3.5 py-2 bg-teal-500/20 text-teal-300 hover:bg-teal-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus"></i> إضافة صف جديد
-                        </button>
-                        <button onclick="resetKeyboardBuilder()" class="text-xs text-red-400 hover:text-red-300">مسح الكل</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 3: COMMANDS & SCOPES -->
-            <div id="tab-commands" class="tab-content hidden flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-terminal text-amber-400"></i>
-                            <span>إدارة قائمة الأوامر والنطاقات</span>
-                        </h2>
-                        <button onclick="fetchBotCommandsAPI()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs">جلب الأوامر الحالية</button>
-                    </div>
-
-                    <!-- New Command Input -->
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-2 bg-slate-900 p-3 rounded-xl border border-slate-800">
-                        <div class="md:col-span-2">
-                            <label class="block text-[10px] text-slate-400 mb-1">الأمر (بدون /)</label>
-                            <input type="text" id="cmdInputName" placeholder="start" class="glass-input w-full rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-[10px] text-slate-400 mb-1">الوصف</label>
-                            <input type="text" id="cmdInputDesc" placeholder="تشغيل البوت" class="glass-input w-full rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none">
-                        </div>
-                        <div class="flex items-end">
-                            <button onclick="addCommandItem()" class="w-full py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs">إضافة</button>
-                        </div>
-                    </div>
-
-                    <!-- Commands List -->
-                    <div class="max-h-52 overflow-y-auto border border-slate-800 rounded-xl">
-                        <table class="w-full text-right text-xs">
-                            <thead class="bg-slate-900 text-slate-400 sticky top-0">
-                                <tr>
-                                    <th class="p-2.5">الأمر</th>
-                                    <th class="p-2.5">الوصف</th>
-                                    <th class="p-2.5 text-center">حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="commandsListTable" class="divide-y divide-slate-800/60">
-                                <tr><td colspan="3" class="p-4 text-center text-slate-500">لا يوجد أوامر مضافة.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <button onclick="saveCommandsToTelegram()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-xs transition">
-                        تحديث الأوامر في Telegram API
-                    </button>
-                </div>
-            </div>
-
-            <!-- TAB 4: AUTOMATION & RULES ENGINE -->
-            <div id="tab-auto" class="tab-content hidden flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-bolt text-purple-400"></i>
-                            <span>منشئ قواعد الرد الآلي والأتمتة</span>
-                        </h2>
-                        <p class="text-[11px] text-slate-400">تعيين ردود تلقائية بناءً على الكلمات المفتاحية</p>
-                    </div>
-
-                    <div class="flex flex-col gap-3 bg-slate-900 p-3.5 rounded-xl border border-slate-800">
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1">الكلمة المفتاحية المستلمة (Trigger Keyword)</label>
-                            <input type="text" id="autoTrigger" placeholder="مثال: مرحبا أو /start" class="glass-input w-full rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-slate-400 mb-1">نص الرد التلقائي (Response Message)</label>
-                            <textarea id="autoResponse" rows="2" placeholder="أهلاً بك! كيف يمكنني مساعدتك اليوم؟" class="glass-input w-full rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none"></textarea>
-                        </div>
-                        <button onclick="addAutoResponderRule()" class="py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg text-xs">
-                            حفظ القاعدة
-                        </button>
-                    </div>
-
-                    <div id="rulesListContainer" class="flex flex-col gap-2 max-h-48 overflow-y-auto">
-                        <!-- Rules injected dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 5: LONG POLLING & LIVE FEED -->
-            <div id="tab-polling" class="tab-content hidden flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-rss text-rose-400"></i>
-                            <span>التحديثات المباشرة (Live Long Polling)</span>
-                        </h2>
-                        <button onclick="togglePolling()" id="pollingToggleBtn" class="px-3 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold">
-                            بدء الاستماع المباشر
-                        </button>
-                    </div>
-
-                    <div id="pollingUpdatesFeed" class="font-mono text-xs bg-slate-950 p-3 rounded-xl border border-slate-900 min-h-[250px] max-h-[350px] overflow-y-auto text-slate-300 flex flex-col gap-2 dir-ltr text-left">
-                        <div class="text-slate-600 font-sans">// انقر على "بدء الاستماع" لالتقاط جميع الرسائل والتفاعلات مع البوت حياً...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 6: BACKUP & UTILITIES -->
-            <div id="tab-backup" class="tab-content hidden flex-col gap-5">
-                <div class="glass rounded-2xl p-5 border border-slate-800 flex flex-col gap-4">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
-                            <i class="fa-solid fa-database text-cyan-400"></i>
-                            <span>النسخ الاحتياطي واستيراد/تصدير البيانات</span>
-                        </h2>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="exportAppData()" class="py-3 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold flex flex-col items-center gap-1">
-                            <i class="fa-solid fa-download text-lg"></i>
-                            <span>تصدير نسخة JSON</span>
-                        </button>
-                        <label class="py-3 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold flex flex-col items-center gap-1 cursor-pointer">
-                            <i class="fa-solid fa-upload text-lg"></i>
-                            <span>استيراد نسخة JSON</span>
-                            <input type="file" onchange="importAppData(event)" class="hidden" accept=".json">
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- REALISTIC TELEGRAM SIMULATOR SCREEN (4 Cols) -->
-        <aside class="lg:col-span-4 flex flex-col gap-4">
-            <div class="glass rounded-3xl p-4 border border-slate-800 sticky top-20 flex flex-col gap-3 shadow-2xl">
-                <div class="flex items-center justify-between px-2 text-xs font-bold text-slate-400 border-b border-slate-800/80 pb-2">
-                    <span class="flex items-center gap-1.5">
-                        <i class="fa-solid fa-mobile-screen-button text-tg-blue"></i>
-                        <span>محاكي تليجرام التفاعلي المباشر</span>
-                    </span>
-                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span> مباشر
-                    </span>
-                </div>
-
-                <!-- Telegram Phone Body -->
-                <div class="w-full rounded-2xl overflow-hidden border-4 border-slate-800 shadow-2xl bg-tg-bg flex flex-col h-[520px]">
-                    <!-- Telegram Header -->
-                    <div class="bg-tg-card px-3 py-2.5 flex items-center gap-3 border-b border-slate-800/60 text-white">
-                        <i class="fa-solid fa-arrow-right text-xs text-slate-400"></i>
-                        <img id="simAvatar" src="https://placehold.co/100x100/17212B/64B5F6?text=BOT" class="w-8 h-8 rounded-full border border-tg-blue/40 object-cover">
-                        <div class="overflow-hidden flex-1">
-                            <h4 id="simName" class="font-bold text-xs truncate">اسم البوت</h4>
-                            <p class="text-[9px] text-tg-blue">bot</p>
-                        </div>
-                        <i class="fa-solid fa-ellipsis-vertical text-xs text-slate-400"></i>
-                    </div>
-
-                    <!-- Telegram Chat Screen -->
-                    <div class="flex-1 tg-bg-pattern p-3 overflow-y-auto flex flex-col justify-end gap-2">
+                    <!-- Phone Frame Outer -->
+                    <div class="w-full max-w-[340px] rounded-[36px] border-4 border-slate-800 bg-slate-950 p-2.5 shadow-2xl relative overflow-hidden">
                         
-                        <!-- Incoming Message Bubble -->
-                        <div class="max-w-[88%] bg-tg-bubble text-slate-100 p-2.5 rounded-2xl rounded-tr-none border border-slate-700/40 shadow-md self-start flex flex-col gap-2">
-                            
-                            <!-- Media Preview Area -->
-                            <div id="simMediaArea" class="hidden rounded-xl overflow-hidden max-h-44 border border-slate-800">
-                                <!-- Media injected here -->
-                            </div>
-
-                            <!-- Text Content -->
-                            <div id="simTextBody" class="text-xs leading-relaxed break-words whitespace-pre-wrap dir-rtl">
-                                نص المعاينة سيظهر هنا...
-                            </div>
-
-                            <div class="text-[9px] text-slate-400 self-end font-mono">12:00 PM</div>
-
-                            <!-- Inline Keyboards Simulator Container -->
-                            <div id="simInlineContainer" class="flex flex-col gap-1 pt-1.5 border-t border-slate-700/30">
-                                <!-- Dynamic Inline Buttons rendered here -->
+                        <!-- Top Phone Notch Bar -->
+                        <div class="flex justify-between items-center px-4 py-1 text-[10px] text-slate-400 font-mono">
+                            <span>16:20</span>
+                            <div class="w-16 h-3 bg-slate-800 rounded-full mx-auto"></div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-wifi"></i>
+                                <i class="fa-battery-full"></i>
                             </div>
                         </div>
 
+                        <!-- Chat App Header Bar -->
+                        <div class="bg-[#17212b] p-2.5 flex items-center gap-2.5 border-b border-slate-800 text-white rounded-t-2xl">
+                            <i class="fa-arrow-right text-slate-400 text-xs cursor-pointer" onclick="navigateToNode('root')"></i>
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-extrabold text-xs shadow">
+                                <i class="fa-robot"></i>
+                            </div>
+                            <div class="flex-grow min-w-0">
+                                <h3 id="simBotTitle" class="font-black text-xs truncate">Bot Manager</h3>
+                                <p id="simBotSub" class="text-[10px] text-cyan-400 truncate">bot @online</p>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400 text-xs">
+                                <i class="fa-star text-amber-400"></i>
+                                <i class="fa-ellipsis-vertical"></i>
+                            </div>
+                        </div>
+
+                        <!-- Chat Screen Messages Canvas -->
+                        <div class="telegram-bg min-h-[400px] max-h-[460px] overflow-y-auto p-3 flex flex-col justify-end space-y-2 rounded-b-2xl text-xs">
+                            
+                            <!-- Chat Bubble Container -->
+                            <div class="tg-bubble p-3 max-w-[94%] self-end text-slate-100 relative space-y-2.5">
+                                
+                                <!-- Attached Media Preview in Sim -->
+                                <div id="simMediaContainer" class="hidden rounded-xl overflow-hidden border border-slate-700/60 bg-slate-900/80">
+                                    <!-- Dynamic Preview Content -->
+                                </div>
+
+                                <!-- Caption Text Render -->
+                                <div id="simTextOutput" class="break-words leading-relaxed whitespace-pre-wrap text-xs">
+                                    مرحباً بك! هذه معاينة مباشرة لرسالتك والوسائط والأزرار المتشعبة.
+                                </div>
+
+                                <!-- Time & Status Tag -->
+                                <div class="flex justify-end items-center gap-1 text-[9px] text-slate-400 pt-0.5 font-mono">
+                                    <span>16:20 PM</span>
+                                    <i class="fa-check-double text-cyan-400"></i>
+                                </div>
+
+                                <!-- Inline Keyboard Grid inside Chat Bubble -->
+                                <div id="simInlineGrid" class="space-y-1.5 pt-2 border-t border-slate-700/50">
+                                    <!-- Dynamic Inline Buttons rendered here -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Reply Keyboard Simulation Bar (Bottom) -->
+                        <div id="simReplyBar" class="hidden bg-[#17212b] p-2 border-t border-slate-800 space-y-1">
+                            <!-- Dynamic Reply Buttons rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instant Direct Dispatcher -->
+                <div class="glass-panel rounded-3xl p-5 border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <h3 class="font-black text-sm flex items-center gap-2 text-cyan-400">
+                            <i class="fa-paper-plane"></i> إرسال مباشر إلى تليجرام
+                        </h3>
+                        <span class="text-[10px] text-slate-400 font-mono">Direct API Dispatcher</span>
                     </div>
 
-                    <!-- Telegram Reply Keyboard Area (Bottom) -->
-                    <div id="simReplyKeyboardArea" class="bg-tg-card p-1.5 border-t border-slate-800/80 flex flex-col gap-1 hidden">
-                        <!-- Reply Keyboard Buttons injected here -->
+                    <div class="space-y-3">
+                        <button onclick="dispatchTelegramMessage()" class="w-full py-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-black rounded-2xl text-xs shadow-xl shadow-cyan-500/20 transition flex items-center justify-center gap-2.5">
+                            <i class="fa-paper-plane text-sm"></i> إرسال الرسالة والملف والأزرار للآيدي (8505592972)
+                        </button>
                     </div>
 
-                    <!-- Telegram Input Bar -->
-                    <div class="bg-tg-card p-2 border-t border-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-paperclip text-slate-400 text-xs"></i>
-                        <input type="text" disabled placeholder="اكتب رسالة..." class="w-full bg-slate-900/80 text-[11px] px-3 py-1.5 rounded-full text-slate-400 border border-slate-800">
-                        <i class="fa-solid fa-microphone text-tg-blue text-xs"></i>
+                    <!-- Dispatch Status Output -->
+                    <div id="dispatchStatus" class="hidden p-3.5 rounded-2xl text-xs font-mono break-all border leading-relaxed"></div>
+                </div>
+
+                <!-- Raw JSON Payload Code Viewer -->
+                <div class="glass-panel rounded-3xl p-5 border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-xs text-slate-300 flex items-center gap-2">
+                            <i class="fa-code text-cyan-400"></i> كود Payload للـ API والـ `reply_markup`
+                        </h3>
+                        <button onclick="copyPayloadJSON()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-lg text-[11px] transition border border-slate-700 flex items-center gap-1 font-bold">
+                            <i class="fa-copy"></i> نسخ JSON
+                        </button>
+                    </div>
+                    <pre id="jsonPayloadOutput" class="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 text-[11px] font-mono text-cyan-300 overflow-x-auto max-h-48 leading-relaxed"></pre>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==================== TAB 2: TELEGRAM STARS MONETIZATION & INVOICE ENGINE ==================== -->
+        <div id="section-stars" class="tab-section hidden space-y-6">
+            
+            <!-- Stars Header Banner -->
+            <div class="glass-panel-star rounded-3xl p-6 relative overflow-hidden flex flex-wrap justify-between items-center gap-6">
+                <div class="space-y-2 max-w-2xl">
+                    <div class="flex items-center gap-2 text-amber-400 font-extrabold text-xs">
+                        <i class="fa-star star-anim"></i> نظام النجوم الرسمي (Telegram Stars `XTR`)
+                    </div>
+                    <h2 class="font-black text-xl text-amber-300 leading-tight">
+                        نظام تحويل، دفع، وتعيين رصيد النجوم لـ ID المستخدم
+                    </h2>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        يمكنك إنشاء وإرسال فواتير شراء بالنجوم مع تحديد العدد بدقة (مثلاً 10 نجوم، 50 نجمة، 100 نجمة) أو ترك القيمة مفتوحة، وربط تحميل المستندات والملفات أو فتح شجرة الأزرار المتشعبة بشرط دفع النجوم.
+                    </p>
+                </div>
+
+                <!-- Wallet Ledger Summary Card -->
+                <div class="bg-slate-950/80 border border-amber-500/40 p-4 rounded-2xl text-center space-y-1 min-w-[220px]">
+                    <span class="text-[11px] text-slate-400 font-bold block">إجمالي رصيد النجوم المستلمة</span>
+                    <div id="starsTotalLedger" class="text-2xl font-black text-amber-400 font-mono">0 XTR</div>
+                    <span class="text-[10px] text-emerald-400 font-mono block">المستلم: ID 8505592972</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                <!-- Left: Invoice Generator Form (7 Cols) -->
+                <div class="lg:col-span-7 glass-panel rounded-3xl p-6 border border-slate-800 space-y-5">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                        <h3 class="font-black text-base text-amber-400 flex items-center gap-2">
+                            <i class="fa-file-invoice-dollar"></i> صانع ومنشئ فواتير دفع النجوم (`sendInvoice`)
+                        </h3>
+                        <span class="text-[10px] font-mono bg-amber-950 text-amber-300 border border-amber-800 px-2.5 py-1 rounded-full">
+                            Currency: XTR
+                        </span>
+                    </div>
+
+                    <div class="space-y-4">
+
+                        <!-- User ID & Star Amount Row -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1.5 block">معرف المستلم (User / Chat ID):</label>
+                                <input type="text" id="starTargetUserId" value="8505592972" class="glass-input w-full p-3 rounded-xl font-mono text-xs">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1.5 block">عدد النجوم المطلوبة (Star Amount XTR):</label>
+                                <div class="relative">
+                                    <input type="number" id="starAmountInput" value="25" min="1" max="10000" class="glass-input w-full p-3 pr-9 rounded-xl font-mono text-xs font-bold text-amber-400">
+                                    <i class="fa-star text-amber-400 absolute left-3 top-3.5 text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Preset Star Buttons -->
+                        <div class="flex items-center gap-2 overflow-x-auto">
+                            <span class="text-xs font-bold text-slate-400 whitespace-nowrap">تحديد سريع للعدد:</span>
+                            <button onclick="document.getElementById('starAmountInput').value = 1" class="px-2.5 py-1 bg-slate-900 border border-slate-700 text-amber-400 rounded-lg text-xs font-mono hover:bg-slate-800">1 ⭐</button>
+                            <button onclick="document.getElementById('starAmountInput').value = 10" class="px-2.5 py-1 bg-slate-900 border border-slate-700 text-amber-400 rounded-lg text-xs font-mono hover:bg-slate-800">10 ⭐</button>
+                            <button onclick="document.getElementById('starAmountInput').value = 50" class="px-2.5 py-1 bg-slate-900 border border-slate-700 text-amber-400 rounded-lg text-xs font-mono hover:bg-slate-800">50 ⭐</button>
+                            <button onclick="document.getElementById('starAmountInput').value = 100" class="px-2.5 py-1 bg-slate-900 border border-slate-700 text-amber-400 rounded-lg text-xs font-mono hover:bg-slate-800">100 ⭐</button>
+                            <button onclick="document.getElementById('starAmountInput').value = 500" class="px-2.5 py-1 bg-slate-900 border border-slate-700 text-amber-400 rounded-lg text-xs font-mono hover:bg-slate-800">500 ⭐</button>
+                        </div>
+
+                        <!-- Invoice Title & Description -->
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1 block">عنوان الفاتورة (Title):</label>
+                                <input type="text" id="starInvoiceTitle" value="اشتراك وسائط ملفات VIP" class="glass-input w-full p-3 rounded-xl text-xs font-bold">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1 block">تفاصيل الفاتورة (Description):</label>
+                                <textarea id="starInvoiceDesc" rows="2" class="glass-input w-full p-3 rounded-xl text-xs">فتح صلاحية تحميل الملفات والمستندات الخاصة عبر بوت تليجرام.</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Payload & Photo Settings -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1 block">كود الشحنة (Payload Identifier):</label>
+                                <input type="text" id="starPayload" value="payload_stars_8505592972" class="glass-input w-full p-2.5 rounded-xl font-mono text-xs">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-300 mb-1 block">صورة الفاتورة (اختياري URL):</label>
+                                <input type="text" id="starPhotoUrl" placeholder="https://site.com/star.png" class="glass-input w-full p-2.5 rounded-xl font-mono text-xs">
+                            </div>
+                        </div>
+
+                        <!-- Dispatch Invoice Action -->
+                        <div class="pt-2">
+                            <button onclick="dispatchStarInvoice()" class="w-full py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-2xl text-xs shadow-xl shadow-amber-500/20 transition flex items-center justify-center gap-2">
+                                <i class="fa-star text-base"></i> إرسال فاتورة النجوم فوراً لـ Telegram API
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right: Simulated Ledger Transactions & Manual Credit (5 Cols) -->
+                <div class="lg:col-span-5 space-y-6">
+
+                    <!-- Credit Manual Stars to User ID Wallet -->
+                    <div class="glass-panel rounded-3xl p-5 border border-slate-800 space-y-4">
+                        <h3 class="font-black text-sm text-amber-400 flex items-center gap-2 pb-2 border-b border-slate-800">
+                            <i class="fa-wallet"></i> إضافة وتعيين رصيد نجوم يدوي للآيدي
+                        </h3>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[11px] font-bold text-slate-400 mb-1 block">الآيدي المستهدف (Chat ID):</label>
+                                <input type="text" id="creditUserIdInput" value="8505592972" class="glass-input w-full p-2.5 rounded-xl font-mono text-xs">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-bold text-slate-400 mb-1 block">كمية النجوم لإضافتها للرصيد:</label>
+                                <input type="number" id="creditStarsAmountInput" value="100" class="glass-input w-full p-2.5 rounded-xl font-mono text-xs font-bold text-amber-400">
+                            </div>
+                            <button onclick="addManualStarsCredit()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 border border-amber-500/50 text-amber-300 font-extrabold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                                <i class="fa-plus-circle"></i> إضافة لسجل رصيد المستخدم
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Transactions History Ledger -->
+                    <div class="glass-panel rounded-3xl p-5 border border-slate-800 space-y-3">
+                        <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                            <h3 class="font-black text-xs text-slate-200 flex items-center gap-2">
+                                <i class="fa-clock-rotate-left text-amber-400"></i> سجل المعاملات المالية بالنجوم
+                            </h3>
+                            <button onclick="clearStarLedger()" class="text-rose-400 text-[10px] hover:underline">مسح السجل</button>
+                        </div>
+
+                        <div id="starLedgerList" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                            <div class="text-center py-6 text-slate-500 text-xs">لا توجد معاملات نجوم مسجلة حتى الآن.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ==================== TAB 3: VISUAL TREE BRANCHING MAP CANVAS ==================== -->
+        <div id="section-treeVisual" class="tab-section hidden space-y-6">
+            <div class="glass-panel rounded-3xl p-6 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div>
+                        <h2 class="font-black text-base text-purple-400 flex items-center gap-2">
+                            <i class="fa-sitemap"></i> الخريطة المرئية المتشعبة لشجرة الأزرار والتفرعات (Visual Tree Map)
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">عرض توضيحي هيكلي كامل لجميع مستويات الأزرار والروابط التفاعلية في البوت</p>
+                    </div>
+                    <button onclick="renderVisualTreeMap()" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition">
+                        <i class="fa-sync"></i> تحديث خريطة الشجرة
+                    </button>
+                </div>
+
+                <!-- SVG Visual Map Container -->
+                <div id="visualTreeMapCanvas" class="p-8 bg-slate-950 rounded-2xl border border-slate-800 min-h-[420px] overflow-x-auto flex flex-col items-center justify-center space-y-6">
+                    <!-- Dynamic Tree Nodes Rendered Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: BOT CREDENTIALS & API CONFIGURATION ==================== -->
+        <div id="section-settings" class="tab-section hidden space-y-6">
+            <div class="glass-panel rounded-3xl p-6 border border-slate-800 max-w-3xl mx-auto space-y-6">
+                <div class="flex items-center gap-3.5 pb-4 border-b border-slate-800">
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                        <i class="fa-key"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-black text-base text-slate-100">إعدادات توكن البوت والربط المباشر مع الاستضافة</h2>
+                        <p class="text-xs text-slate-400">تكوين وتثبيت التوكن ومستلم الفواتير والملفات بشكل دائم في النظام</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 mb-1.5 block">توكن البوت المعتمد (Bot Token API):</label>
+                        <input type="text" id="cfgBotToken" class="glass-input w-full p-3.5 pr-4 font-mono text-xs rounded-2xl" placeholder="8903469723:AAFGYIsf0dc9tzT8pCsEUf1hmhsVeA-8dT8">
+                        <p class="text-[11px] text-slate-500 mt-1">يتم الحفظ تلقائياً في `LocalStorage` للتصفح الدائم دون فقدان البيانات.</p>
+                    </div>
+
+                    <div>
+                        <label class="text-xs font-bold text-slate-300 mb-1.5 block">معرف المستلم والمسؤول الافتراضي (Default User / Admin Chat ID):</label>
+                        <input type="text" id="cfgChatId" class="glass-input w-full p-3.5 font-mono text-xs rounded-2xl" placeholder="8505592972">
+                    </div>
+
+                    <div class="pt-2 flex flex-wrap items-center gap-3">
+                        <button onclick="saveBotSettings()" class="px-6 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black rounded-2xl text-xs transition shadow-lg shadow-cyan-500/20 flex items-center gap-2">
+                            <i class="fa-floppy-disk"></i> حفظ الإعدادات وفحص الاتصال
+                        </button>
+                        <button onclick="resetBotSettingsDefault()" class="px-5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-2xl text-xs transition">
+                            إعادة تعيين التوكن الافتراضي
+                        </button>
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
+
+        <!-- ==================== TAB 5: API LIVE REQUESTS LOGS ==================== -->
+        <div id="section-logs" class="tab-section hidden space-y-6">
+            <div class="glass-panel rounded-3xl p-6 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <h2 class="font-black text-base text-cyan-400 flex items-center gap-2">
+                        <i class="fa-list-check"></i> سجل اتصالات وطلبات Telegram Bot API المباشرة
+                    </h2>
+                    <button onclick="clearLogs()" class="px-3.5 py-1.5 bg-rose-950/80 hover:bg-rose-900 border border-rose-800 text-rose-300 rounded-xl text-xs font-bold transition">
+                        <i class="fa-trash"></i> مسح السجل
+                    </button>
+                </div>
+
+                <div id="logsList" class="space-y-2.5 max-h-[520px] overflow-y-auto pr-1">
+                    <div class="text-center py-10 text-slate-500 text-xs">لا توجد طلبات مرسلة حتى الآن.</div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
-    <!-- MANAGE BOTS MODAL -->
-    <div id="manageBotsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass rounded-3xl max-w-xl w-full p-6 border border-slate-800 flex flex-col gap-5 shadow-2xl relative">
-            <button onclick="closeManageBotsModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-slate-800/80 py-4 text-center text-xs text-slate-500 mt-10">
+        <p>Telegram Bot Management Studio Enterprise &copy; 2026 - نظام نقل الوسائط والأزرار المتشعبة ورصيد النجوم</p>
+    </footer>
 
-            <div class="border-b border-slate-800 pb-3">
-                <h3 class="font-extrabold text-slate-100 text-base flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-tg-blue"></i>
-                    <span>إدارة محفظة البوتات</span>
-                </h3>
-            </div>
-
-            <!-- Add Bot Form -->
-            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 flex flex-col gap-3">
-                <label class="block text-xs font-bold text-slate-200">إضافة بوت جديد (Bot Token)</label>
-                <div class="flex gap-2">
-                    <input type="text" id="modalTokenInput" placeholder="123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none dir-ltr">
-                    <button onclick="addNewBotByToken()" class="px-4 py-2 bg-tg-blue hover:bg-tg-darkBlue text-white font-bold rounded-xl text-xs whitespace-nowrap transition">
-                        فحص وإضافة
-                    </button>
-                </div>
-            </div>
-
-            <!-- Registered Bots List -->
-            <div class="flex flex-col gap-2 max-h-60 overflow-y-auto" id="registeredBotsList">
-                <!-- Injected dynamically -->
-            </div>
-        </div>
-    </div>
-
-    <!-- WEBHOOK SETTINGS MODAL -->
-    <div id="webhookModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass rounded-3xl max-w-lg w-full p-6 border border-slate-800 flex flex-col gap-5 shadow-2xl relative">
-            <button onclick="closeWebhookModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div class="border-b border-slate-800 pb-3">
-                <h3 class="font-extrabold text-slate-100 text-base flex items-center gap-2">
-                    <i class="fa-solid fa-network-wired text-emerald-400"></i>
-                    <span>إدارة الويبهوك (Webhook Manager)</span>
-                </h3>
-            </div>
-
-            <div class="flex flex-col gap-3">
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">رابط الويبهوك (HTTPS Webhook URL)</label>
-                    <input type="url" id="webhookUrlInput" placeholder="https://yourserver.com/webhook" class="glass-input w-full rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-600 focus:outline-none dir-ltr">
-                </div>
-                
-                <div class="flex gap-2 pt-2">
-                    <button onclick="setWebhookAPI()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition">
-                        تثبيت الويبهوك
-                    </button>
-                    <button onclick="deleteWebhookAPI()" class="py-2.5 px-4 bg-red-500/20 text-red-300 hover:bg-red-500/30 rounded-xl text-xs font-bold transition">
-                        حذف
-                    </button>
-                    <button onclick="getWebhookInfoAPI()" class="py-2.5 px-4 bg-slate-800 text-slate-200 hover:bg-slate-700 rounded-xl text-xs font-bold transition">
-                        معلومات
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NOTIFICATION TOAST CONTAINER -->
-    <div id="toastStack" class="fixed bottom-5 left-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- MAIN APP JAVASCRIPT LOGIC -->
+    <!-- APPLICATION JAVASCRIPT CORE ENGINE -->
     <script>
-        // APP GLOBAL STATE
-        let botsCollection = []; // Stores all added bots
-        let activeBotId = null;  // Currently active bot ID
-        let currentMediaType = 'text'; // 'text', 'photo', 'video', 'document'
-        let keyboardMode = 'inline'; // 'inline' or 'reply'
-        let inlineKeyboardRows = []; // Stores inline button rows
-        let replyKeyboardRows = [];  // Stores reply keyboard rows
-        let botCommands = [];        // Stores bot commands
-        let autoRules = [];          // Stores auto-responder rules
-        let pollingInterval = null;  // Long polling timer
-        let lastUpdateId = 0;
+        // ==================== DEFAULT CREDENTIALS ====================
+        const DEFAULT_BOT_TOKEN = "8903469723:AAFGYIsf0dc9tzT8pCsEUf1hmhsVeA-8dT8";
+        const DEFAULT_CHAT_ID = "8505592972";
 
-        // INITIALIZATION
-        window.onload = function() {
-            loadFromLocalStorage();
-            if(botsCollection.length === 0) {
-                openManageBotsModal();
-            } else {
-                renderBotsUI();
+        // Application State
+        let botToken = localStorage.getItem('tg_bot_token') || DEFAULT_BOT_TOKEN;
+        let targetChatId = localStorage.getItem('tg_chat_id') || DEFAULT_CHAT_ID;
+        let userStarsLedger = JSON.parse(localStorage.getItem('tg_stars_ledger') || '{}');
+        if (!userStarsLedger[DEFAULT_CHAT_ID]) userStarsLedger[DEFAULT_CHAT_ID] = 0;
+
+        let mediaType = 'text'; 
+        let keyboardType = 'inline'; 
+
+        // Nested Button Tree Structure (Node Hierarchy Storage)
+        let buttonTree = JSON.parse(localStorage.getItem('tg_button_tree') || 'null') || {
+            'root': {
+                id: 'root',
+                title: 'الرسالة الرئيسية (Root)',
+                rows: [
+                    [
+                        { id: 'b1', text: '📥 تحميل المستندات الحصرية', type: 'node', targetNode: 'files_menu' },
+                        { id: 'b2', text: '⭐ شحن وتفعيل النجوم', type: 'stars', starsAmount: 25 }
+                    ],
+                    [
+                        { id: 'b3', text: '🌐 موقعنا المباشر', type: 'url', value: 'https://t.me' },
+                        { id: 'b4', text: '📋 نسخ رابط البوت', type: 'copy_text', value: 'https://t.me/MyBot' }
+                    ]
+                ]
+            },
+            'files_menu': {
+                id: 'files_menu',
+                title: 'قسم تحميل الملفات والمستندات',
+                rows: [
+                    [
+                        { id: 'fb1', text: '📄 ملف VIP (يتطلب 50 نجمة)', type: 'stars', starsAmount: 50 },
+                        { id: 'fb2', text: '⚡ أمر Callback خاص', type: 'callback_data', value: 'cmd_download_pdf' }
+                    ],
+                    [
+                        { id: 'fb3', text: '◀️ العودة للقائمة الرئيسية', type: 'node', targetNode: 'root' }
+                    ]
+                ]
             }
-            addNewKeyboardRow();
-            updateLivePreview();
         };
 
-        // LOCALSTORAGE PERSISTENCE
-        function loadFromLocalStorage() {
-            const savedBots = localStorage.getItem('tg_studio_bots');
-            const savedRules = localStorage.getItem('tg_studio_rules');
-            if(savedBots) {
-                try {
-                    botsCollection = JSON.parse(savedBots);
-                    if(botsCollection.length > 0) activeBotId = botsCollection[0].id;
-                } catch(e) { console.error(e); }
+        let currentNodeId = 'root';
+        let albumItems = [];
+        let selectedFileBlob = null;
+        let apiLogs = [];
+        let starTransactions = JSON.parse(localStorage.getItem('tg_star_trans') || '[]');
+
+        // Initialization
+        window.onload = function() {
+            document.getElementById('cfgBotToken').value = botToken;
+            document.getElementById('cfgChatId').value = targetChatId;
+            document.getElementById('starTargetUserId').value = targetChatId;
+            document.getElementById('creditUserIdInput').value = targetChatId;
+
+            updateWalletUI();
+            checkBotConnection();
+            renderKeyboardCanvas();
+            renderSimulator();
+            renderStarLedgerUI();
+        };
+
+        // Switch Main Navigation Tabs
+        function switchMainTab(tabName) {
+            document.querySelectorAll('.tab-section').forEach(sec => sec.classList.add('hidden'));
+            document.querySelectorAll('.main-tab-btn').forEach(btn => {
+                btn.className = "main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition text-slate-400 hover:text-white hover:bg-slate-800/60";
+            });
+
+            document.getElementById(`section-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`mainTab-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = "main-tab-btn px-4 py-3 rounded-xl flex items-center gap-2 transition bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20";
             }
-            if(savedRules) {
-                try { autoRules = JSON.parse(savedRules); } catch(e){}
+
+            if (tabName === 'treeVisual') {
+                renderVisualTreeMap();
             }
         }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('tg_studio_bots', JSON.stringify(botsCollection));
-            localStorage.setItem('tg_studio_rules', JSON.stringify(autoRules));
+        // Wallet Balance Updates
+        function updateWalletUI() {
+            const currentBal = userStarsLedger[targetChatId] || 0;
+            document.getElementById('topWalletBalance').innerText = `${currentBal} XTR`;
+            document.getElementById('starsTotalLedger').innerText = `${currentBal} XTR`;
         }
 
-        // BOTS MANAGEMENT LOGIC
-        function openManageBotsModal() { document.getElementById('manageBotsModal').classList.remove('hidden'); renderRegisteredBotsModalList(); }
-        function closeManageBotsModal() { document.getElementById('manageBotsModal').classList.add('hidden'); }
-        function openWebhookModal() { document.getElementById('webhookModal').classList.remove('hidden'); }
-        function closeWebhookModal() { document.getElementById('webhookModal').classList.add('hidden'); }
+        // Check Bot Connection via Telegram getMe API
+        async function checkBotConnection() {
+            const statusText = document.getElementById('statusText');
+            const indicator = document.getElementById('statusIndicator');
+            const botInfoText = document.getElementById('botInfoText');
 
-        async function addNewBotByToken() {
-            const tokenInput = document.getElementById('modalTokenInput');
-            const token = tokenInput.value.trim();
-            if(!token) return showToast('يرجى إدخال التوكن', 'error');
+            statusText.innerText = "جاري الفحص...";
+            statusText.className = "text-amber-400 block leading-tight text-[11px]";
 
-            logConsole(`جاري فحص التوكن مع Telegram API...`);
             try {
-                const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
-                const data = await res.json();
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/getMe`);
+                const data = await response.json();
 
-                if(data.ok) {
-                    const info = data.result;
-                    const existingIndex = botsCollection.findIndex(b => b.id === info.id);
-                    const botObj = {
-                        id: info.id,
-                        token: token,
-                        firstName: info.first_name,
-                        username: info.username,
-                        avatar: `https://placehold.co/100x100/17212B/64B5F6?text=${info.first_name.charAt(0)}`
-                    };
-
-                    if(existingIndex >= 0) {
-                        botsCollection[existingIndex] = botObj;
-                    } else {
-                        botsCollection.push(botObj);
-                    }
-
-                    activeBotId = info.id;
-                    saveToLocalStorage();
-                    tokenInput.value = '';
-                    renderBotsUI();
-                    renderRegisteredBotsModalList();
-                    showToast(`تمت إضافة البوت @${info.username} بنجاح!`, 'success');
-                    logConsole(`تم ربط البوت @${info.username} بنجاح.`, 'success');
+                if (data.ok) {
+                    statusText.innerText = "متصل بنجاح (Online)";
+                    statusText.className = "text-emerald-400 block leading-tight text-[11px]";
+                    indicator.className = "w-3 h-3 rounded-full bg-emerald-400";
+                    botInfoText.innerText = `@${data.result.username}`;
+                    document.getElementById('simBotTitle').innerText = data.result.first_name;
+                    document.getElementById('simBotSub').innerText = `@${data.result.username}`;
                 } else {
-                    showToast('التوكن غير صالح!', 'error');
+                    statusText.innerText = "التوكن غير صالح";
+                    statusText.className = "text-rose-400 block leading-tight text-[11px]";
+                    indicator.className = "w-3 h-3 rounded-full bg-rose-400";
+                    botInfoText.innerText = "Offline";
                 }
-            } catch(e) {
-                showToast('خطأ في شبكة الاتصال', 'error');
+            } catch (err) {
+                statusText.innerText = "خطأ بالاتصال";
+                statusText.className = "text-rose-400 block leading-tight text-[11px]";
+                indicator.className = "w-3 h-3 rounded-full bg-rose-400";
             }
         }
 
-        function getActiveBot() {
-            return botsCollection.find(b => b.id === activeBotId) || null;
+        // Save Credentials Permanently
+        function saveBotSettings() {
+            botToken = document.getElementById('cfgBotToken').value.trim() || DEFAULT_BOT_TOKEN;
+            targetChatId = document.getElementById('cfgChatId').value.trim() || DEFAULT_CHAT_ID;
+
+            localStorage.setItem('tg_bot_token', botToken);
+            localStorage.setItem('tg_chat_id', targetChatId);
+
+            updateWalletUI();
+            checkBotConnection();
+            alert('تم حفظ البيانات والتوكن بالذاكرة بنجاح!');
         }
 
-        function switchActiveBot(id) {
-            activeBotId = parseInt(id);
-            renderBotsUI();
-            logConsole(`تم التبديل إلى البوت النقل المباشر ID: ${activeBotId}`);
+        function resetBotSettingsDefault() {
+            botToken = DEFAULT_BOT_TOKEN;
+            targetChatId = DEFAULT_CHAT_ID;
+
+            document.getElementById('cfgBotToken').value = botToken;
+            document.getElementById('cfgChatId').value = targetChatId;
+
+            localStorage.setItem('tg_bot_token', botToken);
+            localStorage.setItem('tg_chat_id', targetChatId);
+
+            updateWalletUI();
+            checkBotConnection();
         }
 
-        function renderBotsUI() {
-            const select = document.getElementById('activeBotSelect');
-            const badge = document.getElementById('botCountBadge');
-            badge.innerText = botsCollection.length;
-
-            select.innerHTML = botsCollection.map(b => `<option value="${b.id}" ${b.id === activeBotId ? 'selected' : ''}>${b.firstName} (@${b.username})</option>`).join('');
-
-            const bot = getActiveBot();
-            if(bot) {
-                document.getElementById('activeBotName').innerText = bot.firstName;
-                document.getElementById('activeBotUsername').innerText = '@' + bot.username;
-                document.getElementById('activeBotId').innerText = 'ID: ' + bot.id;
-                document.getElementById('activeBotAvatar').src = bot.avatar;
-                document.getElementById('activeBotStatusDot').className = 'w-3.5 h-3.5 bg-emerald-500 border-2 border-tg-card rounded-full absolute -bottom-1 -left-1 shadow-glow';
-                
-                // Sim Update
-                document.getElementById('simName').innerText = bot.firstName;
-                document.getElementById('simAvatar').src = bot.avatar;
+        // Media Type Setter
+        function setMediaType(type) {
+            mediaType = type;
+            document.querySelectorAll('.m-tab').forEach(b => {
+                b.className = "m-tab py-2 rounded-xl flex flex-col items-center gap-1 transition text-slate-400 hover:text-white";
+            });
+            const activeTab = document.getElementById(`mTab-${type}`);
+            if (activeTab) {
+                activeTab.className = "m-tab active py-2 rounded-xl flex flex-col items-center gap-1 transition bg-cyan-600 text-white";
             }
-        }
 
-        function renderRegisteredBotsModalList() {
-            const list = document.getElementById('registeredBotsList');
-            if(botsCollection.length === 0) {
-                list.innerHTML = `<div class="text-center p-4 text-xs text-slate-500">لا يوجد بوتات مسجلة بعد.</div>`;
-                return;
+            const fileBox = document.getElementById('fileUploadBox');
+            const albumBox = document.getElementById('albumContainer');
+            const audioMeta = document.getElementById('audioMetadataFields');
+
+            fileBox.classList.add('hidden');
+            albumBox.classList.add('hidden');
+            audioMeta.classList.add('hidden');
+
+            if (['document', 'photo', 'video', 'video_note', 'audio', 'voice'].includes(type)) {
+                fileBox.classList.remove('hidden');
+                if (type === 'audio') audioMeta.classList.remove('hidden');
+            } else if (type === 'album') {
+                albumBox.classList.remove('hidden');
+                if (albumItems.length === 0) {
+                    addAlbumItem();
+                    addAlbumItem();
+                }
             }
 
-            list.innerHTML = botsCollection.map(b => `
-                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <img src="${b.avatar}" class="w-8 h-8 rounded-lg object-cover">
-                        <div>
-                            <h4 class="font-bold text-xs text-slate-200">${b.firstName}</h4>
-                            <p class="text-[10px] text-tg-blue">@${b.username}</p>
-                        </div>
-                    </div>
-                    <button onclick="removeBotFromCollection(${b.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+            renderSimulator();
+        }
+
+        function handleFileSelect(evt) {
+            const file = evt.target.files[0];
+            if (file) {
+                selectedFileBlob = file;
+                document.getElementById('fileAttachedLabel').innerText = `تم إرفاق الملف المحلي: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+            } else {
+                selectedFileBlob = null;
+                document.getElementById('fileAttachedLabel').innerText = "انقر هنا لاختيار ملف محلي نرفعه مباشرة لـ Telegram Server";
+            }
+            renderSimulator();
+        }
+
+        // Album Management
+        function addAlbumItem() {
+            if (albumItems.length >= 10) return alert('الحد الأقصى لألبوم الوسائط المجمعة هو 10 عناصر!');
+            albumItems.push({ id: Date.now(), type: 'photo', url: '' });
+            renderAlbumList();
+            renderSimulator();
+        }
+
+        function removeAlbumItem(id) {
+            albumItems = albumItems.filter(i => i.id !== id);
+            renderAlbumList();
+            renderSimulator();
+        }
+
+        function renderAlbumList() {
+            const list = document.getElementById('albumList');
+            list.innerHTML = albumItems.map((item, idx) => `
+                <div class="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
+                    <span class="text-xs font-bold text-slate-500 w-4">${idx + 1}</span>
+                    <select onchange="albumItems[${idx}].type = this.value; renderSimulator();" class="glass-input p-1.5 rounded-lg text-xs">
+                        <option value="photo" ${item.type === 'photo' ? 'selected' : ''}>صورة</option>
+                        <option value="video" ${item.type === 'video' ? 'selected' : ''}>فيديو</option>
+                    </select>
+                    <input type="text" placeholder="رابط الوسيطة المباشر..." value="${item.url}" oninput="albumItems[${idx}].url = this.value; renderSimulator();" class="glass-input flex-grow p-1.5 rounded-lg text-xs font-mono">
+                    <button onclick="removeAlbumItem(${item.id})" class="text-rose-400 hover:text-rose-300 p-1.5"><i class="fa-trash"></i></button>
                 </div>
             `).join('');
         }
 
-        function removeBotFromCollection(id) {
-            botsCollection = botsCollection.filter(b => b.id !== id);
-            if(activeBotId === id) activeBotId = botsCollection.length > 0 ? botsCollection[0].id : null;
-            saveToLocalStorage();
-            renderBotsUI();
-            renderRegisteredBotsModalList();
-        }
+        // Tree Node Navigation & Keyboard Canvas
+        function navigateToNode(nodeId) {
+            if (!buttonTree[nodeId]) {
+                buttonTree[nodeId] = { id: nodeId, title: `تفرع ${nodeId}`, rows: [] };
+            }
+            currentNodeId = nodeId;
 
-        // NAVIGATION TABS
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-tg-blue', 'text-white', 'shadow-lg');
-                btn.classList.add('text-slate-300');
-            });
-
-            document.getElementById(tabId).classList.remove('hidden');
-            const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.classList.add('bg-tg-blue', 'text-white', 'shadow-lg');
-            activeBtn.classList.remove('text-slate-300');
-        }
-
-        // MEDIA TYPE SELECTOR
-        function setMediaType(type) {
-            currentMediaType = type;
-            document.querySelectorAll('.media-type-btn').forEach(btn => {
-                btn.classList.remove('bg-tg-blue', 'text-white');
-                btn.classList.add('bg-slate-900', 'text-slate-300');
-            });
-            document.getElementById(`media-btn-${type}`).classList.add('bg-tg-blue', 'text-white');
+            // Render Breadcrumb
+            const breadcrumb = document.getElementById('treeBreadcrumb');
+            breadcrumb.innerHTML = `<span class="text-slate-500">مسار الشجرة الحالي:</span>`;
             
-            const urlContainer = document.getElementById('mediaUrlContainer');
-            if(type === 'text') {
-                urlContainer.classList.add('hidden');
+            const btn = document.createElement('button');
+            btn.className = "px-2.5 py-1 bg-cyan-950 text-cyan-300 border border-cyan-800 rounded-lg hover:bg-cyan-900";
+            btn.innerHTML = `<i class="fa-sitemap text-[10px]"></i> العقدة الحالية: <b>${buttonTree[nodeId].title || nodeId}</b>`;
+            breadcrumb.appendChild(btn);
+
+            if (nodeId !== 'root') {
+                const homeBtn = document.createElement('button');
+                homeBtn.className = "px-2 py-1 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 ml-2";
+                homeBtn.innerHTML = `<i class="fa-house"></i> الرئيسية`;
+                homeBtn.onclick = () => navigateToNode('root');
+                breadcrumb.appendChild(homeBtn);
+            }
+
+            renderKeyboardCanvas();
+            renderSimulator();
+        }
+
+        function setKeyboardType(type) {
+            keyboardType = type;
+            const inlineBtn = document.getElementById('kbTypeInline');
+            const replyBtn = document.getElementById('kbTypeReply');
+
+            if (type === 'inline') {
+                inlineBtn.className = "px-3.5 py-1.5 rounded-xl bg-purple-600 text-white transition";
+                replyBtn.className = "px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition";
             } else {
-                urlContainer.classList.remove('hidden');
-                document.getElementById('mediaUrlLabel').innerText = `رابط الـ ${type === 'photo' ? 'صورة' : type === 'video' ? 'فيديو' : 'مستند'}`;
+                replyBtn.className = "px-3.5 py-1.5 rounded-xl bg-purple-600 text-white transition";
+                inlineBtn.className = "px-3.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition";
             }
-            updateLivePreview();
+            renderKeyboardCanvas();
+            renderSimulator();
         }
 
-        function fillAdminId() {
-            const bot = getActiveBot();
-            if(bot) document.getElementById('targetChatId').value = bot.id;
+        function addKeyboardRow() {
+            if (!buttonTree[currentNodeId]) buttonTree[currentNodeId] = { id: currentNodeId, rows: [] };
+            buttonTree[currentNodeId].rows.push([
+                { id: 'b_' + Date.now(), text: 'زر جديد', type: keyboardType === 'inline' ? 'url' : 'text', value: 'https://t.me' }
+            ]);
+            saveTreeToStorage();
+            renderKeyboardCanvas();
+            renderSimulator();
         }
 
-        // KEYBOARD BUILDER ENGINE
-        function setKeyboardMode(mode) {
-            keyboardMode = mode;
-            document.getElementById('kb-mode-inline').className = mode === 'inline' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white' : 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400';
-            document.getElementById('kb-mode-reply').className = mode === 'reply' ? 'flex-1 py-1.5 rounded-lg text-xs font-bold bg-tg-blue text-white' : 'flex-1 py-1.5 rounded-lg text-xs font-bold text-slate-400';
-            renderKeyboardBuilder();
-            updateLivePreview();
+        function addButtonToRow(rIdx) {
+            buttonTree[currentNodeId].rows[rIdx].push({
+                id: 'b_' + Date.now(),
+                text: 'زر فرعي',
+                type: keyboardType === 'inline' ? 'callback_data' : 'text',
+                value: 'act_' + Date.now().toString().slice(-4)
+            });
+            saveTreeToStorage();
+            renderKeyboardCanvas();
+            renderSimulator();
         }
 
-        function addNewKeyboardRow() {
-            const rowId = Date.now();
-            if(keyboardMode === 'inline') inlineKeyboardRows.push({ id: rowId, buttons: [] });
-            else replyKeyboardRows.push({ id: rowId, buttons: [] });
-            renderKeyboardBuilder();
+        function deleteRow(rIdx) {
+            buttonTree[currentNodeId].rows.splice(rIdx, 1);
+            saveTreeToStorage();
+            renderKeyboardCanvas();
+            renderSimulator();
         }
 
-        function addButtonToRow(rowId) {
-            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
-            const row = rows.find(r => r.id === rowId);
-            if(row) {
-                row.buttons.push({
-                    id: Date.now(),
-                    text: 'زر جديد',
-                    type: keyboardMode === 'inline' ? 'url' : 'text',
-                    value: 'https://telegram.org'
-                });
-                renderKeyboardBuilder();
-                updateLivePreview();
+        function deleteButton(rIdx, bIdx) {
+            buttonTree[currentNodeId].rows[rIdx].splice(bIdx, 1);
+            if (buttonTree[currentNodeId].rows[rIdx].length === 0) {
+                buttonTree[currentNodeId].rows.splice(rIdx, 1);
             }
+            saveTreeToStorage();
+            renderKeyboardCanvas();
+            renderSimulator();
         }
 
-        function renderKeyboardBuilder() {
-            const container = document.getElementById('keyboardRowsWrapper');
-            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
+        function saveTreeToStorage() {
+            localStorage.setItem('tg_button_tree', JSON.stringify(buttonTree));
+        }
 
-            if(rows.length === 0) {
-                container.innerHTML = `<div class="text-center p-6 text-slate-500 border border-dashed border-slate-800 rounded-xl">لا توجد أزرار مضافة، انقر "إضافة صف جديد".</div>`;
+        // Render Active Node Buttons in Builder
+        function renderKeyboardCanvas() {
+            const container = document.getElementById('keyboardCanvas');
+            const node = buttonTree[currentNodeId] || { rows: [] };
+
+            if (!node.rows || node.rows.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl">لا توجد أزرار مضافة في هذا التفرع. انقر فوق إضافة صف جديد للبدء.</div>`;
                 return;
             }
 
-            container.innerHTML = rows.map((row, idx) => `
-                <div class="glass-card p-3 rounded-xl border border-slate-800 flex flex-col gap-2">
-                    <div class="flex justify-between items-center text-[11px] text-slate-400 font-bold">
-                        <span>صف الأزرار #${idx + 1}</span>
-                        <div class="flex gap-2">
-                            <button onclick="addButtonToRow(${row.id})" class="text-teal-400 hover:text-teal-300"><i class="fa-solid fa-plus"></i> إضافة زر</button>
-                            <button onclick="removeRow(${row.id})" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-xmark"></i></button>
+            container.innerHTML = node.rows.map((row, rIdx) => `
+                <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-2.5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-grip-lines text-slate-600"></i> الصف #${rIdx + 1}
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="addButtonToRow(${rIdx})" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-400 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                                <i class="fa-plus"></i> إضافة زر بهذا الصف
+                            </button>
+                            <button onclick="deleteRow(${rIdx})" class="text-rose-400 hover:text-rose-300 text-xs px-2 py-1">
+                                <i class="fa-trash"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        ${row.buttons.map(btn => `
-                            <div class="bg-slate-900 p-2 rounded-lg border border-slate-800 flex flex-col gap-1.5 relative">
-                                <button onclick="removeBtn(${row.id}, ${btn.id})" class="absolute left-2 top-1.5 text-slate-500 hover:text-red-400 text-[10px]"><i class="fa-solid fa-times"></i></button>
-                                <input type="text" value="${btn.text}" oninput="updateBtnProp(${row.id}, ${btn.id}, 'text', this.value)" class="glass-input rounded px-2 py-1 text-xs text-white focus:outline-none" placeholder="عنوان الزر">
-                                ${keyboardMode === 'inline' ? `
-                                    <div class="grid grid-cols-3 gap-1">
-                                        <select onchange="updateBtnProp(${row.id}, ${btn.id}, 'type', this.value)" class="glass-input rounded px-1 py-1 text-[10px] text-white focus:outline-none">
-                                            <option value="url" ${btn.type === 'url' ? 'selected' : ''}>URL</option>
-                                            <option value="callback" ${btn.type === 'callback' ? 'selected' : ''}>Callback</option>
-                                            <option value="copy" ${btn.type === 'copy' ? 'selected' : ''}>Copy Text</option>
-                                        </select>
-                                        <input type="text" value="${btn.value}" oninput="updateBtnProp(${row.id}, ${btn.id}, 'value', this.value)" class="col-span-2 glass-input rounded px-2 py-1 text-[10px] text-white focus:outline-none" placeholder="القيم/الرابط">
-                                    </div>
-                                ` : ''}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-${Math.min(row.length, 3)} gap-2">
+                        ${row.map((btn, bIdx) => `
+                            <div class="bg-slate-950 p-3 rounded-2xl border ${btn.type === 'stars' ? 'border-amber-500/50' : 'border-slate-800'} space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <input type="text" value="${btn.text || ''}" oninput="buttonTree['${currentNodeId}'].rows[${rIdx}][${bIdx}].text = this.value; saveTreeToStorage(); renderSimulator();" placeholder="عنوان الزر" class="glass-input font-bold p-1.5 rounded-lg text-xs w-full ml-2">
+                                    <button onclick="deleteButton(${rIdx}, ${bIdx})" class="text-slate-500 hover:text-rose-400 text-xs p-1"><i class="fa-xmark"></i></button>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <select onchange="buttonTree['${currentNodeId}'].rows[${rIdx}][${bIdx}].type = this.value; saveTreeToStorage(); renderKeyboardCanvas(); renderSimulator();" class="glass-input p-1.5 rounded-lg text-[11px] w-full">
+                                        ${keyboardType === 'inline' ? `
+                                            <option value="url" ${btn.type === 'url' ? 'selected' : ''}>🔗 رابط خارجي (URL)</option>
+                                            <option value="node" ${btn.type === 'node' ? 'selected' : ''}>🌿 فتح تفرع آخر بالشجرة (Sub-Node)</option>
+                                            <option value="stars" ${btn.type === 'stars' ? 'selected' : ''}>⭐ دفع نجوم (Telegram Stars Invoice)</option>
+                                            <option value="callback_data" ${btn.type === 'callback_data' ? 'selected' : ''}>⚡ أمر Callback Data</option>
+                                            <option value="web_app" ${btn.type === 'web_app' ? 'selected' : ''}>🌐 تطبيق ويب (Web App)</option>
+                                            <option value="copy_text" ${btn.type === 'copy_text' ? 'selected' : ''}>📋 نسخ نص تلقائي</option>
+                                        ` : `
+                                            <option value="text" ${btn.type === 'text' ? 'selected' : ''}>💬 نص عادي</option>
+                                            <option value="request_contact" ${btn.type === 'request_contact' ? 'selected' : ''}>📞 طلب رقم الهاتف</option>
+                                            <option value="request_location" ${btn.type === 'request_location' ? 'selected' : ''}>📍 طلب الموقع الجغرافي</option>
+                                        `}
+                                    </select>
+
+                                    ${btn.type === 'stars' ? `
+                                        <div class="relative">
+                                            <input type="number" value="${btn.starsAmount || 10}" oninput="buttonTree['${currentNodeId}'].rows[${rIdx}][${bIdx}].starsAmount = parseInt(this.value); saveTreeToStorage(); renderSimulator();" placeholder="عدد النجوم" class="glass-input p-1.5 pr-7 rounded-lg text-[11px] font-mono text-amber-400 w-full font-bold">
+                                            <i class="fa-star text-amber-400 absolute left-2 top-2 text-[10px]"></i>
+                                        </div>
+                                    ` : ''}
+
+                                    ${btn.type === 'node' ? `
+                                        <div class="flex gap-1">
+                                            <input type="text" value="${btn.targetNode || ''}" oninput="buttonTree['${currentNodeId}'].rows[${rIdx}][${bIdx}].targetNode = this.value; saveTreeToStorage(); renderSimulator();" placeholder="معرف التفرع target_node" class="glass-input p-1.5 rounded-lg text-[11px] font-mono w-full">
+                                            <button onclick="navigateToNode('${btn.targetNode || 'sub_' + Date.now()}')" class="px-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-[10px] font-bold">انتقال</button>
+                                        </div>
+                                    ` : ''}
+
+                                    ${['url', 'callback_data', 'web_app', 'copy_text'].includes(btn.type) ? `
+                                        <input type="text" value="${btn.value || ''}" oninput="buttonTree['${currentNodeId}'].rows[${rIdx}][${bIdx}].value = this.value; saveTreeToStorage(); renderSimulator();" placeholder="القيمة أو الرابط" class="glass-input p-1.5 rounded-lg text-[11px] font-mono w-full">
+                                    ` : ''}
+                                </div>
                             </div>
                         `).join('')}
                     </div>
@@ -833,422 +1168,536 @@
             `).join('');
         }
 
-        function removeRow(rowId) {
-            if(keyboardMode === 'inline') inlineKeyboardRows = inlineKeyboardRows.filter(r => r.id !== rowId);
-            else replyKeyboardRows = replyKeyboardRows.filter(r => r.id !== rowId);
-            renderKeyboardBuilder();
-            updateLivePreview();
-        }
-
-        function removeBtn(rowId, btnId) {
-            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
-            const row = rows.find(r => r.id === rowId);
-            if(row) {
-                row.buttons = row.buttons.filter(b => b.id !== btnId);
-                renderKeyboardBuilder();
-                updateLivePreview();
-            }
-        }
-
-        function updateBtnProp(rowId, btnId, key, val) {
-            const rows = keyboardMode === 'inline' ? inlineKeyboardRows : replyKeyboardRows;
-            const row = rows.find(r => r.id === rowId);
-            if(row) {
-                const btn = row.buttons.find(b => b.id === btnId);
-                if(btn) {
-                    btn[key] = val;
-                    updateLivePreview();
-                }
-            }
-        }
-
-        function resetKeyboardBuilder() {
-            inlineKeyboardRows = [];
-            replyKeyboardRows = [];
-            addNewKeyboardRow();
-            updateLivePreview();
-        }
-
-        // REALISTIC LIVE TELEGRAM SIMULATOR UPDATER
-        function updateLivePreview() {
-            const msgText = document.getElementById('messageBody').value;
-            const simText = document.getElementById('simTextBody');
-            const simMedia = document.getElementById('simMediaArea');
-            const simInline = document.getElementById('simInlineContainer');
-            const simReply = document.getElementById('simReplyKeyboardArea');
-            const mediaUrl = document.getElementById('mediaUrlInput').value;
-
-            // Set Text
-            simText.innerHTML = msgText.trim() ? msgText : 'نص المعاينة سيظهر هنا...';
-
-            // Media Preview
-            if(currentMediaType !== 'text' && mediaUrl.trim()) {
-                simMedia.classList.remove('hidden');
-                if(currentMediaType === 'photo') {
-                    simMedia.innerHTML = `<img src="${mediaUrl}" class="w-full h-32 object-cover" onerror="this.src='https://placehold.co/300x150/17212B/64B5F6?text=Invalid+Image'">`;
-                } else {
-                    simMedia.innerHTML = `<div class="p-3 bg-slate-900 text-slate-300 text-xs flex items-center gap-2"><i class="fa-solid fa-file"></i> <span>مرفق ${currentMediaType}</span></div>`;
-                }
-            } else {
-                simMedia.classList.add('hidden');
-            }
-
-            // Inline Keyboard Render
-            simInline.innerHTML = '';
-            inlineKeyboardRows.forEach(row => {
-                if(row.buttons.length > 0) {
-                    const rowDiv = document.createElement('div');
-                    rowDiv.className = "grid gap-1 w-full";
-                    rowDiv.style.gridTemplateColumns = `repeat(${row.buttons.length}, minmax(0, 1fr))`;
-                    row.buttons.forEach(btn => {
-                        const b = document.createElement('div');
-                        b.className = "bg-tg-btnBg text-tg-accent text-[11px] py-1 px-2 rounded font-semibold text-center truncate border border-tg-blue/20 flex items-center justify-center gap-1";
-                        b.innerHTML = `${btn.text} ${btn.type === 'url' ? '<i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i>' : ''}`;
-                        rowDiv.appendChild(b);
-                    });
-                    simInline.appendChild(rowDiv);
-                }
-            });
-
-            // Reply Keyboard Render
-            if(replyKeyboardRows.some(r => r.buttons.length > 0)) {
-                simReply.classList.remove('hidden');
-                simReply.innerHTML = '';
-                replyKeyboardRows.forEach(row => {
-                    if(row.buttons.length > 0) {
-                        const rowDiv = document.createElement('div');
-                        rowDiv.className = "grid gap-1 w-full";
-                        rowDiv.style.gridTemplateColumns = `repeat(${row.buttons.length}, minmax(0, 1fr))`;
-                        row.buttons.forEach(btn => {
-                            const b = document.createElement('div');
-                            b.className = "bg-slate-800 text-slate-200 text-xs py-1.5 px-2 rounded font-semibold text-center truncate shadow";
-                            b.innerText = btn.text;
-                            rowDiv.appendChild(b);
-                        });
-                        simReply.appendChild(rowDiv);
+        // Tree Preset Templates Generator
+        function loadTreePreset(preset) {
+            if (preset === 'starFileStore') {
+                buttonTree = {
+                    'root': {
+                        id: 'root',
+                        title: 'متجر الملفات بالنجوم',
+                        rows: [
+                            [
+                                { id: 's1', text: '⭐ شراء حزمة الملفات (25 نجمة)', type: 'stars', starsAmount: 25 },
+                                { id: 's2', text: '⭐ الدعم بـ 100 نجمة', type: 'stars', starsAmount: 100 }
+                            ],
+                            [
+                                { id: 's3', text: '📁 تصفح المستندات المجانية', type: 'node', targetNode: 'free_files' }
+                            ]
+                        ]
+                    },
+                    'free_files': {
+                        id: 'free_files',
+                        title: 'المستندات المجانية',
+                        rows: [
+                            [{ id: 'f1', text: '📥 تحميل الكتالوج المجاني', type: 'callback_data', value: 'dl_free_cat' }],
+                            [{ id: 'f2', text: '◀️ العودة للقائمة الرئيسية', type: 'node', targetNode: 'root' }]
+                        ]
                     }
+                };
+            } else if (preset === 'nestedSubmenu') {
+                buttonTree = {
+                    'root': {
+                        id: 'root',
+                        title: 'المستوى الأول',
+                        rows: [
+                            [{ id: 'm1', text: '📂 القائمة الفرعية (Level 2)', type: 'node', targetNode: 'level_2' }]
+                        ]
+                    },
+                    'level_2': {
+                        id: 'level_2',
+                        title: 'المستوى الثاني',
+                        rows: [
+                            [{ id: 'm2', text: '📂 التفرع العميق (Level 3)', type: 'node', targetNode: 'level_3' }],
+                            [{ id: 'm3', text: '◀️ عودة', type: 'node', targetNode: 'root' }]
+                        ]
+                    },
+                    'level_3': {
+                        id: 'level_3',
+                        title: 'المستوى الثالث العميق',
+                        rows: [
+                            [{ id: 'm4', text: '⚡ تنفيذ الخيار النهائي', type: 'callback_data', value: 'final_act' }],
+                            [{ id: 'm5', text: '◀️ عودة للمستوى الثاني', type: 'node', targetNode: 'level_2' }]
+                        ]
+                    }
+                };
+            }
+
+            saveTreeToStorage();
+            navigateToNode('root');
+        }
+
+        // Real-Time Simulator Engine
+        function renderSimulator() {
+            const captionText = document.getElementById('captionInput').value || 'مرحباً بك! هذه معاينة مباشرة لرسالتك والوسائط والأزرار المتشعبة.';
+            const simText = document.getElementById('simTextOutput');
+            const simMedia = document.getElementById('simMediaContainer');
+            const simInlineGrid = document.getElementById('simInlineGrid');
+            const simReplyBar = document.getElementById('simReplyBar');
+            const fileUrl = document.getElementById('fileUrlInput').value;
+
+            simText.innerHTML = captionText;
+
+            simMedia.classList.add('hidden');
+            simMedia.innerHTML = '';
+
+            if (selectedFileBlob) {
+                simMedia.classList.remove('hidden');
+                simMedia.innerHTML = `
+                    <div class="p-3 bg-slate-900 flex items-center gap-2.5 text-xs">
+                        <i class="fa-file-zipper text-cyan-400 text-lg"></i>
+                        <div class="truncate">
+                            <p class="font-extrabold text-slate-200 truncate">${selectedFileBlob.name}</p>
+                            <p class="text-[10px] text-slate-400 font-mono">${(selectedFileBlob.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                    </div>
+                `;
+            } else if (mediaType === 'photo' && fileUrl) {
+                simMedia.classList.remove('hidden');
+                simMedia.innerHTML = `<img src="${fileUrl}" class="w-full h-36 object-cover rounded-xl" onerror="this.onerror=null; this.src='https://placehold.co/400x200/1e293b/00e5ff?text=Photo+Preview'">`;
+            } else if (mediaType === 'video' && fileUrl) {
+                simMedia.classList.remove('hidden');
+                simMedia.innerHTML = `<video src="${fileUrl}" controls class="w-full h-36 rounded-xl bg-black"></video>`;
+            } else if (mediaType === 'audio') {
+                const title = document.getElementById('audioTitle').value || 'صوتية تليجرام';
+                const perf = document.getElementById('audioPerformer').value || 'فنان مجهول';
+                simMedia.classList.remove('hidden');
+                simMedia.innerHTML = `
+                    <div class="p-3 flex items-center gap-3 bg-slate-900 text-xs">
+                        <div class="w-9 h-9 rounded-full bg-cyan-500 flex items-center justify-center text-slate-950 font-bold text-sm">
+                            <i class="fa-music"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="font-extrabold text-slate-200 truncate">${title}</p>
+                            <p class="text-[10px] text-slate-400 truncate">${perf}</p>
+                        </div>
+                    </div>
+                `;
+            } else if (mediaType === 'album' && albumItems.length > 0) {
+                simMedia.classList.remove('hidden');
+                simMedia.innerHTML = `
+                    <div class="grid grid-cols-2 gap-1 p-1 bg-slate-900">
+                        ${albumItems.map(i => `
+                            <div class="bg-slate-800 h-16 rounded-lg flex items-center justify-center text-[10px] text-slate-400 overflow-hidden">
+                                ${i.url ? `<img src="${i.url}" class="w-full h-full object-cover">` : `<i class="fa-${i.type === 'photo' ? 'image' : 'video'} text-lg"></i>`}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Render Keyboard Grid for Current Node
+            simInlineGrid.innerHTML = '';
+            simReplyBar.classList.add('hidden');
+            simReplyBar.innerHTML = '';
+
+            const activeNode = buttonTree[currentNodeId] || { rows: [] };
+
+            if (keyboardType === 'inline' && activeNode.rows.length > 0) {
+                activeNode.rows.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = `grid grid-cols-${Math.min(row.length, 3)} gap-1.5`;
+                    row.forEach(btn => {
+                        const bEl = document.createElement('button');
+                        
+                        if (btn.type === 'stars') {
+                            bEl.className = 'tg-star-btn w-full py-2 px-2 rounded-xl text-[11px] font-black truncate flex items-center justify-center gap-1';
+                            bEl.innerHTML = `<i class="fa-star text-amber-400 text-[10px]"></i> ${btn.text} (${btn.starsAmount || 10} ⭐)`;
+                            bEl.onclick = () => simulateStarPaymentFromSim(btn.starsAmount || 10, btn.text);
+                        } else if (btn.type === 'node') {
+                            bEl.className = 'tg-btn w-full py-2 px-2 rounded-xl text-[11px] font-bold text-purple-300 truncate flex items-center justify-center gap-1';
+                            bEl.innerHTML = `<i class="fa-folder-tree text-[10px]"></i> ${btn.text}`;
+                            bEl.onclick = () => navigateToNode(btn.targetNode || 'root');
+                        } else {
+                            bEl.className = 'tg-btn w-full py-2 px-2 rounded-xl text-[11px] font-bold text-cyan-300 truncate';
+                            bEl.innerText = btn.text || 'زر';
+                            bEl.onclick = () => alert(`تم التفاعل مع الزر:\nالنوع: ${btn.type}\nالقيمة: ${btn.value || 'لا توجد'}`);
+                        }
+
+                        rowDiv.appendChild(bEl);
+                    });
+                    simInlineGrid.appendChild(rowDiv);
                 });
-            } else {
-                simReply.classList.add('hidden');
+            } else if (keyboardType === 'reply' && activeNode.rows.length > 0) {
+                simReplyBar.classList.remove('hidden');
+                activeNode.rows.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = `grid grid-cols-${Math.min(row.length, 3)} gap-1`;
+                    row.forEach(btn => {
+                        const bEl = document.createElement('button');
+                        bEl.className = 'bg-[#242f3d] text-slate-200 py-2 px-2 rounded-lg text-[11px] font-bold truncate';
+                        bEl.innerText = btn.text || 'زر';
+                        bEl.onclick = () => alert(`ضغط الزر: ${btn.text}`);
+                        rowDiv.appendChild(bEl);
+                    });
+                    simReplyBar.appendChild(rowDiv);
+                });
+            }
+
+            generatePayloadJSON();
+        }
+
+        // Simulate Star Payment in Phone Screen
+        function simulateStarPaymentFromSim(amount, title) {
+            if (confirm(`محاكاة تليجرام:\nهل ترغب في دفع ${amount} نجمة (Telegram Stars) لشراء وتفعيل [${title}]؟`)) {
+                userStarsLedger[targetChatId] = (userStarsLedger[targetChatId] || 0) + amount;
+                localStorage.setItem('tg_stars_ledger', JSON.stringify(userStarsLedger));
+                
+                starTransactions.unshift({
+                    time: new Date().toLocaleTimeString(),
+                    userId: targetChatId,
+                    amount: amount,
+                    title: title,
+                    status: 'SUCCESS'
+                });
+                localStorage.setItem('tg_star_trans', JSON.stringify(starTransactions));
+
+                updateWalletUI();
+                renderStarLedgerUI();
+                alert(`✅ تم الخصم وإضافة ${amount} نجمة إلى رصيد الحساب ${targetChatId} بنجاح!`);
             }
         }
 
-        function insertFormat(open, close) {
-            const txt = document.getElementById('messageBody');
-            const start = txt.selectionStart;
-            const end = txt.selectionEnd;
-            const sel = txt.value.substring(start, end);
-            txt.value = txt.value.substring(0, start) + open + sel + close + txt.value.substring(end);
-            updateLivePreview();
-            txt.focus();
+        function insertTag(startTag, endTag) {
+            const textarea = document.getElementById('captionInput');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const val = textarea.value;
+            const sel = val.substring(start, end) || 'نص';
+            textarea.value = val.substring(0, start) + startTag + sel + endTag + val.substring(end);
+            renderSimulator();
         }
 
-        // SEND MESSAGE TELEGRAM API CALL
-        async function dispatchTelegramMessage() {
-            const bot = getActiveBot();
-            if(!bot) return showToast('يرجى اختيار بوت أولاً', 'error');
+        // Generate JSON Payload
+        function generatePayloadJSON() {
+            const activeNode = buttonTree[currentNodeId] || { rows: [] };
+            let replyMarkup = {};
 
-            const target = document.getElementById('targetChatId').value.trim();
-            const message = document.getElementById('messageBody').value.trim();
-            if(!target || !message) return showToast('يرجى ملء كافة الحقول المباشرة', 'error');
+            if (keyboardType === 'inline') {
+                replyMarkup.inline_keyboard = activeNode.rows.map(row => 
+                    row.map(btn => {
+                        let bObj = { text: btn.text };
+                        if (btn.type === 'url') bObj.url = btn.value || 'https://t.me';
+                        else if (btn.type === 'callback_data') bObj.callback_data = btn.value || 'data';
+                        else if (btn.type === 'node') bObj.callback_data = `nav_${btn.targetNode || 'root'}`;
+                        else if (btn.type === 'stars') bObj.pay = true;
+                        else if (btn.type === 'web_app') bObj.web_app = { url: btn.value || 'https://t.me' };
+                        else if (btn.type === 'copy_text') bObj.copy_text = { text: btn.value || '' };
+                        return bObj;
+                    })
+                );
+            } else {
+                replyMarkup.keyboard = activeNode.rows.map(row => 
+                    row.map(btn => {
+                        let bObj = { text: btn.text };
+                        if (btn.type === 'request_contact') bObj.request_contact = true;
+                        if (btn.type === 'request_location') bObj.request_location = true;
+                        return bObj;
+                    })
+                );
+                replyMarkup.resize_keyboard = true;
+            }
 
-            const parseMode = document.getElementById('parseModeSelect').value;
-            const protectContent = document.getElementById('protectContentCheck').checked;
-            const disableNotif = document.getElementById('disableNotificationCheck').checked;
-
-            let endpoint = 'sendMessage';
-            let payload = {
-                chat_id: target,
-                protect_content: protectContent,
-                disable_notification: disableNotif
+            const payload = {
+                chat_id: targetChatId,
+                parse_mode: "HTML",
+                protect_content: document.getElementById('flagProtectContent').checked,
+                disable_notification: document.getElementById('flagSilent').checked,
+                reply_markup: replyMarkup
             };
 
-            if(parseMode !== 'None') payload.parse_mode = parseMode;
-
-            // Handle Media Types
-            if(currentMediaType === 'text') {
-                payload.text = message;
+            if (mediaType === 'text') {
+                payload.text = document.getElementById('captionInput').value || "رسالة تجريبية";
             } else {
-                const url = document.getElementById('mediaUrlInput').value.trim();
-                payload.caption = message;
-                if(currentMediaType === 'photo') { endpoint = 'sendPhoto'; payload.photo = url; }
-                if(currentMediaType === 'video') { endpoint = 'sendVideo'; payload.video = url; }
-                if(currentMediaType === 'document') { endpoint = 'sendDocument'; payload.document = url; }
+                payload.caption = document.getElementById('captionInput').value || "";
+                payload[mediaType] = document.getElementById('fileUrlInput').value || document.getElementById('telegramFileIdInput').value || "LOCAL_FILE_ATTACHED";
             }
 
-            // Inline Reply Markup
-            const inlineKeyboardFormatted = inlineKeyboardRows.map(r => 
-                r.buttons.map(b => {
-                    if(b.type === 'url') return { text: b.text, url: b.value };
-                    if(b.type === 'copy') return { text: b.text, copy_text: { text: b.value } };
-                    return { text: b.text, callback_data: b.value };
-                })
-            ).filter(r => r.length > 0);
+            document.getElementById('jsonPayloadOutput').innerText = JSON.stringify(payload, null, 2);
+            return payload;
+        }
 
-            if(inlineKeyboardFormatted.length > 0) {
-                payload.reply_markup = { inline_keyboard: inlineKeyboardFormatted };
-            }
+        function copyPayloadJSON() {
+            const txt = document.getElementById('jsonPayloadOutput').innerText;
+            const el = document.createElement('textarea');
+            el.value = txt;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert('تم نسخ هيكل الـ JSON بنجاح!');
+        }
 
-            logConsole(`جاري إرسال ${endpoint} إلى ${target}...`);
+        // Direct Dispatch to Telegram Bot API
+        async function dispatchTelegramMessage() {
+            const statusBox = document.getElementById('dispatchStatus');
+            statusBox.classList.remove('hidden', 'bg-red-950', 'text-red-300', 'bg-emerald-950', 'text-emerald-300', 'border-red-800', 'border-emerald-800');
+            statusBox.innerText = "جاري إرسال البلاغ لـ Telegram Bot API...";
 
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/${endpoint}`, {
+            let endpoint = 'sendMessage';
+            if (mediaType === 'document') endpoint = 'sendDocument';
+            else if (mediaType === 'photo') endpoint = 'sendPhoto';
+            else if (mediaType === 'video') endpoint = 'sendVideo';
+            else if (mediaType === 'video_note') endpoint = 'sendVideoNote';
+            else if (mediaType === 'audio') endpoint = 'sendAudio';
+            else if (mediaType === 'voice') endpoint = 'sendVoice';
+
+            let requestOptions = {};
+
+            if (selectedFileBlob) {
+                const formData = new FormData();
+                formData.append('chat_id', targetChatId);
+                formData.append('parse_mode', 'HTML');
+                formData.append('caption', document.getElementById('captionInput').value);
+                formData.append('protect_content', document.getElementById('flagProtectContent').checked);
+                formData.append('disable_notification', document.getElementById('flagSilent').checked);
+                formData.append('reply_markup', JSON.stringify(generatePayloadJSON().reply_markup));
+                formData.append(mediaType, selectedFileBlob);
+
+                requestOptions = { method: 'POST', body: formData };
+            } else {
+                const payload = generatePayloadJSON();
+                requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-
-                if(data.ok) {
-                    showToast('تم إرسال الرسالة بنجاح! 🚀', 'success');
-                    logConsole(`تم الإرسال! Message ID: ${data.result.message_id}`, 'success');
-                } else {
-                    showToast(`خطأ Telegram: ${data.description}`, 'error');
-                    logConsole(`فشل: ${data.description}`, 'error');
-                }
-            } catch(e) {
-                showToast('حدث خطأ في الاتصال بالسيرفر', 'error');
-                logConsole(`خطأ شبكة: ${e.message}`, 'error');
+                };
             }
-        }
-
-        // COMMANDS MANAGEMENT
-        function addCommandItem() {
-            const name = document.getElementById('cmdInputName').value.trim();
-            const desc = document.getElementById('cmdInputDesc').value.trim();
-            if(!name || !desc) return showToast('يرجى كتابة الأمر والوصف', 'error');
-
-            botCommands.push({ command: name, description: desc });
-            document.getElementById('cmdInputName').value = '';
-            document.getElementById('cmdInputDesc').value = '';
-            renderCommandsListTable();
-        }
-
-        function renderCommandsListTable() {
-            const tbody = document.getElementById('commandsListTable');
-            if(botCommands.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-500">لا يوجد أوامر مضافة.</td></tr>`;
-                return;
-            }
-            tbody.innerHTML = botCommands.map((c, i) => `
-                <tr class="hover:bg-slate-800/40">
-                    <td class="p-2.5 font-mono text-amber-400">/${c.command}</td>
-                    <td class="p-2.5 text-slate-300">${c.description}</td>
-                    <td class="p-2.5 text-center">
-                        <button onclick="botCommands.splice(${i},1); renderCommandsListTable();" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        async function saveCommandsToTelegram() {
-            const bot = getActiveBot();
-            if(!bot) return showToast('اختر بوت أولاً', 'error');
 
             try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/setMyCommands`, {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/${endpoint}`, requestOptions);
+                const result = await response.json();
+
+                logApiCall(endpoint, result);
+
+                if (result.ok) {
+                    statusBox.classList.add('bg-emerald-950', 'text-emerald-300', 'border-emerald-800');
+                    statusBox.innerText = `✅ تم إرسال الرسالة والملف بنجاح للآيدي ${targetChatId}! (Message ID: ${result.result.message_id})`;
+                } else {
+                    statusBox.classList.add('bg-red-950', 'text-red-300', 'border-red-800');
+                    statusBox.innerText = `❌ خطأ من تليجرام: ${result.description}`;
+                }
+            } catch (err) {
+                statusBox.classList.add('bg-red-950', 'text-red-300', 'border-red-800');
+                statusBox.innerText = `❌ فشل الاتصال الشبكي: ${err.message}`;
+            }
+        }
+
+        // Dispatch Telegram Stars Invoice (`sendInvoice`)
+        async function dispatchStarInvoice() {
+            const targetId = document.getElementById('starTargetUserId').value || targetChatId;
+            const amount = parseInt(document.getElementById('starAmountInput').value) || 25;
+            const title = document.getElementById('starInvoiceTitle').value || 'شراء بالنجوم';
+            const desc = document.getElementById('starInvoiceDesc').value || 'تفاصيل الفاتورة';
+            const payloadStr = document.getElementById('starPayload').value || 'payload_' + Date.now();
+            const photoUrl = document.getElementById('starPhotoUrl').value;
+
+            const invoicePayload = {
+                chat_id: targetId,
+                title: title,
+                description: desc,
+                payload: payloadStr,
+                provider_token: "", // Required empty string for Telegram Stars (XTR)
+                currency: "XTR",
+                prices: [{ label: title, amount: amount }]
+            };
+
+            if (photoUrl) invoicePayload.photo_url = photoUrl;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendInvoice`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ commands: botCommands })
+                    body: JSON.stringify(invoicePayload)
                 });
-                const data = await res.json();
-                if(data.ok) showToast('تم تحديث قائمة الأوامر بنجاح! ✨', 'success');
-                else showToast(`خطأ: ${data.description}`, 'error');
-            } catch(e) { showToast('خطأ بالشبكة', 'error'); }
-        }
 
-        async function fetchBotCommandsAPI() {
-            const bot = getActiveBot();
-            if(!bot) return;
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/getMyCommands`);
-                const data = await res.json();
-                if(data.ok) {
-                    botCommands = data.result || [];
-                    renderCommandsListTable();
-                    showToast('تم جلب الأوامر الحالية', 'success');
+                const result = await response.json();
+                logApiCall('sendInvoice', result);
+
+                if (result.ok) {
+                    alert(`✅ تم إرسال فاتورة النجوم (${amount} XTR) بنجاح للآيدي ${targetId}!`);
+                    
+                    userStarsLedger[targetId] = (userStarsLedger[targetId] || 0) + amount;
+                    localStorage.setItem('tg_stars_ledger', JSON.stringify(userStarsLedger));
+
+                    starTransactions.unshift({
+                        time: new Date().toLocaleTimeString(),
+                        userId: targetId,
+                        amount: amount,
+                        title: title,
+                        status: 'SENT'
+                    });
+                    localStorage.setItem('tg_star_trans', JSON.stringify(starTransactions));
+
+                    updateWalletUI();
+                    renderStarLedgerUI();
+                } else {
+                    alert(`❌ فشل إرسال فاتورة النجوم: ${result.description}`);
                 }
-            } catch(e){}
-        }
-
-        // WEBHOOK ENGINE
-        async function setWebhookAPI() {
-            const bot = getActiveBot();
-            const url = document.getElementById('webhookUrlInput').value.trim();
-            if(!bot || !url) return showToast('تأكد من إدخال البيانات', 'error');
-
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/setWebhook?url=${encodeURIComponent(url)}`);
-                const data = await res.json();
-                if(data.ok) showToast('تم تثبيت الويبهوك بنجاح!', 'success');
-                else showToast(`خطأ: ${data.description}`, 'error');
-            } catch(e){}
-        }
-
-        async function deleteWebhookAPI() {
-            const bot = getActiveBot();
-            if(!bot) return;
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/deleteWebhook`);
-                const data = await res.json();
-                if(data.ok) showToast('تم حذف الويبهوك بنجاح!', 'success');
-            } catch(e){}
-        }
-
-        // LONG POLLING REALTIME FEED
-        function togglePolling() {
-            const btn = document.getElementById('pollingToggleBtn');
-            if(pollingInterval) {
-                clearInterval(pollingInterval);
-                pollingInterval = null;
-                btn.className = "px-3 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold";
-                btn.innerText = "بدء الاستماع المباشر";
-                logConsole('تم إيقاف الاستماع المباشر.');
-            } else {
-                btn.className = "px-3 py-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-bold animate-pulse";
-                btn.innerText = "جاري الاستماع حياً...";
-                logConsole('تم تشغيل Long Polling لاستقبال الرسائل...');
-                pollingInterval = setInterval(fetchUpdatesLongPolling, 3000);
+            } catch (err) {
+                alert(`❌ خطأ بالشبكة: ${err.message}`);
             }
         }
 
-        async function fetchUpdatesLongPolling() {
-            const bot = getActiveBot();
-            if(!bot) return;
-            try {
-                const res = await fetch(`https://api.telegram.org/bot${bot.token}/getUpdates?offset=${lastUpdateId + 1}`);
-                const data = await res.json();
-                if(data.ok && data.result.length > 0) {
-                    data.result.forEach(update => {
-                        lastUpdateId = update.update_id;
-                        appendPollingFeed(update);
-                        triggerAutoResponder(update);
-                    });
-                }
-            } catch(e){}
+        // Manual Credit Addition
+        function addManualetItem('tg_stars_ledger', JSON.stringify(userStarsLedger));
+
+            starTransactions.unshift({
+                time: new Date().toLocaleTimeString(),
+                userId: userId,
+                amount: amount,
+                title: 'شحن رصيد يدوي',
+                status: 'CREDITED'
+            });
+            localStorage.setItem('tg_star_trans', JSON.stringify(starTransactions));
+
+            updateWalletUI();
+            renderStarLedgerUI();
+            alert(`تم إضافة ${amount} نجمة لرصيد الآيدي ${userId} بنجاح!`);
         }
 
-        function appendPollingFeed(update) {
-            const feed = document.getElementById('pollingUpdatesFeed');
-            const item = document.createElement('div');
-            item.className = "p-2 bg-slate-900 rounded border border-slate-800 text-emerald-400 font-mono text-[11px]";
-            item.innerText = JSON.stringify(update, null, 2);
-            feed.appendChild(item);
-            feed.scrollTop = feed.scrollHeight;
-        }
-
-        // AUTOMATION & AUTO-RESPONDER RULES
-        function addAutoResponderRule() {
-            const trigger = document.getElementById('autoTrigger').value.trim();
-            const response = document.getElementById('autoResponse').value.trim();
-            if(!trigger || !response) return showToast('يرجى كتابة الكلمة والرد', 'error');
-
-            autoRules.push({ trigger, response });
-            saveToLocalStorage();
-            renderRulesList();
-            document.getElementById('autoTrigger').value = '';
-            document.getElementById('autoResponse').value = '';
-            showToast('تم حفظ القاعدة بنجاح!', 'success');
-        }
-
-        function renderRulesList() {
-            const container = document.getElementById('rulesListContainer');
-            if(autoRules.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-slate-500 py-3">لا توجد قواعد رد آلي.</div>`;
+        function renderStarLedgerUI() {
+            const list = document.getElementById('starLedgerList');
+            if (starTransactions.length === 0) {
+                list.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs">لا توجد معاملات نجوم مسجلة حتى الآن.</div>`;
                 return;
             }
-            container.innerHTML = autoRules.map((r, i) => `
-                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+
+            list.innerHTML = starTransactions.map(tx => `
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs font-mono">
                     <div>
-                        <span class="text-purple-400 font-bold">[إذا استلم]:</span> <span class="text-white">${r.trigger}</span>
-                        <div class="text-slate-400 text-[11px]"><span class="text-emerald-400 font-bold">[الرد]:</span> ${r.response}</div>
+                        <span class="font-bold text-amber-400 block">${tx.amount} XTR - ${tx.title}</span>
+                        <span class="text-[10px] text-slate-400">User ID: ${tx.userId} | ${tx.time}</span>
                     </div>
-                    <button onclick="autoRules.splice(${i},1); saveToLocalStorage(); renderRulesList();" class="text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold ${tx.status === 'SUCCESS' || tx.status === 'CREDITED' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-cyan-950 text-cyan-300 border border-cyan-800'}">
+                        ${tx.status}
+                    </span>
                 </div>
             `).join('');
         }
 
-        async function triggerAutoResponder(update) {
-            if(!update.message || !update.message.text) return;
-            const text = update.message.text;
-            const chatId = update.message.chat.id;
+        function clearStarLedger() {
+            starTransactions = [];
+            localStorage.removeItem('tg_star_trans');
+            renderStarLedgerUI();
+        }
 
-            const matchedRule = autoRules.find(r => text.includes(r.trigger));
-            if(matchedRule) {
-                const bot = getActiveBot();
-                if(bot) {
-                    logConsole(`الرد الآلي مطبق للكلمة "${matchedRule.trigger}"...`);
-                    await fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ chat_id: chatId, text: matchedRule.response })
-                    });
-                }
+        // Render Visual SVG Tree Map
+        function renderVisualTreeMap() {
+            const canvas = document.getElementById('visualTreeMapCanvas');
+            const nodes = Object.keys(buttonTree);
+
+            if (nodes.length === 0) {
+                canvas.innerHTML = `<p class="text-xs text-slate-500">لا توجد شجرة أزرار مضافة لعرض خريطتها.</p>`;
+                return;
             }
+
+            canvas.innerHTML = `
+                <div class="flex flex-col items-center space-y-6 w-full">
+                    <div class="px-6 py-3 bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 rounded-2xl font-black text-xs text-white shadow-xl flex items-center gap-2">
+                        <i class="fa-robot"></i> الرسالة الرئيسية (Root Message Node)
+                    </div>
+                    <div class="w-0.5 h-8 bg-cyan-500/60"></div>
+
+                    <div class="flex flex-wrap justify-center gap-8 w-full">
+                        ${nodes.map(nodeKey => {
+                            const node = buttonTree[nodeKey];
+                            return `
+                                <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-3xl flex flex-col items-center space-y-3 min-w-[240px] shadow-lg">
+                                    <span class="text-xs font-extrabold text-purple-400 flex items-center gap-1.5">
+                                        <i class="fa-folder-tree"></i> ${node.title || nodeKey}
+                                    </span>
+                                    <div class="w-full space-y-2">
+                                        ${(node.rows || []).map(row => `
+                                            <div class="flex gap-1.5 justify-center">
+                                                ${row.map(b => `
+                                                    <div class="px-3 py-2 bg-slate-950 border ${b.type === 'stars' ? 'border-amber-500/60 text-amber-300' : 'border-slate-800 text-slate-200'} rounded-xl text-center space-y-0.5 flex-1">
+                                                        <p class="font-extrabold text-[11px] truncate">${b.text}</p>
+                                                        <span class="text-[9px] font-mono block text-slate-500">${b.type} ${b.starsAmount ? `(${b.starsAmount}⭐)` : ''}</span>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
         }
 
-        // BACKUP EXPORT & IMPORT
-        function exportAppData() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-                bots: botsCollection,
-                rules: autoRules
-            }));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `telegram_studio_backup_${Date.now()}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast('تم تصدير النسخة الاحتياطية بنجاح!', 'success');
+        // Log API Calls
+        function logApiCall(endpoint, result) {
+            apiLogs.unshift({
+                time: new Date().toLocaleTimeString(),
+                endpoint: endpoint,
+                ok: result.ok,
+                details: result
+            });
+
+            document.getElementById('logsCountBadge').innerText = apiLogs.length;
+
+            const logsList = document.getElementById('logsList');
+            logsList.innerHTML = apiLogs.map(log => `
+                <div class="bg-slate-950 p-3.5 rounded-2xl border ${log.ok ? 'border-emerald-800/60' : 'border-rose-800/60'} font-mono text-xs space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="${log.ok ? 'text-emerald-400' : 'text-rose-400'} font-black">
+                            ${log.ok ? '✅ 200 OK' : '❌ ERROR'} - ${log.endpoint}
+                        </span>
+                        <span class="text-[10px] text-slate-500">${log.time}</span>
+                    </div>
+                    <pre class="text-[10px] text-slate-400 overflow-x-auto pt-1 leading-relaxed">${JSON.stringify(log.details, null, 2)}</pre>
+                </div>
+            `).join('');
         }
 
-        function importAppData(event) {
+        function clearLogs() {
+            apiLogs = [];
+            document.getElementById('logsCountBadge').innerText = '0';
+            document.getElementById('logsList').innerHTML = `<div class="text-center py-8 text-slate-500 text-xs">تم مسح سجل الطلبات بنجاح.</div>`;
+        }
+
+        // Export Full Project
+        function exportFullProject() {
+            const data = {
+                botToken: botToken,
+                targetChatId: targetChatId,
+                buttonTree: buttonTree,
+                userStarsLedger: userStarsLedger
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `telegram_studio_project_${Da.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Import Full Project
+        function importFullProject(evt) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const parsed = JSON.parse(e.target.result);
-                    if(parsed.bots) botsCollection = parsed.bots;
-                    if(parsed.rules) autoRules = parsed.rules;
-                    saveToLocalStorage();
-                    renderBotsUI();
-                    renderRulesList();
-                    showToast('تم استيراد البيانات بنجاح!', 'success');
-                } catch(err) { showToast('الملف غير صالح!', 'error'); }
+                    const data = JSON.parse(e.target.result);
+                    if (data.buttonTree) buttonTree = data.buttonTree;
+                    if (data.userStarsLedger) userStarsLedger = data.userStarsLedger;
+                    saveTreeToStorage();
+                    navigateToNode('root');
+                    updateWalletUI();
+                    alert('تم استيراد المشروع والشجرة ورصيد النجوم بنجاح!');
+                } catch (err) {
+                    alert('خطأ في استيراد الملف!');
+                }
             };
-            reader.readAsText(event.target.files[0]);
-        }
-
-        // LOGGERS & TOASTS
-        function logConsole(msg, type = 'info') {
-            const c = document.getElementById('miniConsoleLog');
-            const time = new Date().toLocaleTimeString('ar-EG');
-            let color = 'text-emerald-400';
-            if(type === 'error') color = 'text-red-400';
-            if(type === 'success') color = 'text-cyan-400';
-
-            const item = document.createElement('div');
-            item.className = `${color}`;
-            item.innerText = `[${time}] ${msg}`;
-            c.appendChild(item);
-            c.scrollTop = c.scrollHeight;
-        }
-
-        function clearConsoleLogs() {
-            document.getElementById('miniConsoleLog').innerHTML = '';
-        }
-
-        function showToast(msg, type = 'info') {
-            const stack = document.getElementById('toastStack');
-            const toast = document.createElement('div');
-            let bg = type === 'success' ? 'bg-emerald-950 border-emerald-600 text-emerald-200' : type === 'error' ? 'bg-red-950 border-red-600 text-red-200' : 'bg-tg-card border-tg-blue text-tg-blue';
-            toast.className = `px-4 py-3 rounded-2xl border shadow-2xl text-xs font-bold flex items-center gap-2 pointer-events-auto transition-all transform duration-300 ${bg}`;
-            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${msg}</span>`;
-            stack.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
+            reader.readAsText(evt.target.files[0]);
         }
     </script>
 </body>
-</html>
+</html>StarsCredit() {
+            const userId = document.getElementById('creditUserIdInput').value || targetChatId;
+            const amount = parseInt(document.getElementById('creditStarsAmountInput').value) || 100;
+
+            userStarsLedger[userId] = (userStarsLedger[userId] || 0) + amount;
+            localStorage.s
